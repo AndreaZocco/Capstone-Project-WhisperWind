@@ -1,0 +1,105 @@
+body {
+  margin: 0;
+  background-color: #141414;
+  color: #e0e0e0;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+}
+
+.logo {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+}
+
+.App {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.NavbarContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  background-color: #1e1e1e;
+  color: #fff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+  margin-left: 180px;
+}
+
+.NavLinks {
+  display: flex;
+  gap: 20px;
+}
+
+.NavLink {
+  color: #e0e0e0;
+  text-decoration: none;
+  font-size: 16px;
+  transition: color 0.3s, text-decoration 0.3s;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.NavLink:hover {
+  color: #b0b0b0;
+  text-decoration: underline;
+}
+
+.card-container {
+  width: 200px;
+  height: 300px;
+  background-color: #1e1e1e;
+  border-radius: 15px;
+  overflow: hidden;
+  position: relative;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5); 
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+.card-container:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.7); 
+}
+
+.card-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease-in-out;
+}
+
+.card-container:hover .card-image {
+  transform: scale(1.1); 
+}
+
+.card-title {
+  position: absolute;
+  bottom: 15px;
+  left: 15px;
+  color: #84EEF3;
+  background-color: rgba(0, 0, 0, 0.7);
+  padding: 10px;
+  border-radius: 8px;
+  font-size: 18px;
+  font-weight: bold;
+  max-width: 80%; 
+}
+
+.category-row-container {
+  margin: 30px 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px; 
+  justify-content: center;
+}
+
+.category-title {
+  color: #4C98B0;
+  margin: 0 0 20px 20px;
+  font-size: 24px;
+  font-weight: bold;
+  text-transform: uppercase; 
+}

@@ -1,7 +1,6 @@
-
 const express = require('express');
-const cors = require('cors');
 const path = require('path');
+const cors = require('cors');
 const userRoutes = require('./routes/userRoutes');
 const app = express();
 
@@ -14,8 +13,13 @@ app.use(cors(corsOptions));
 app.use(express.json());
 
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
-
 app.use('/api/users', userRoutes);
+
+app.use(express.static(path.join(__dirname, 'build')));
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'build', 'index.html'));
+});
 
 const port = process.env.PORT || 5000;
 

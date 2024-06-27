@@ -1,6 +1,8 @@
-const bcrypt = require('bcrypt');
+const axios = require('axios');
 const jwt = require('jsonwebtoken');
+const { OAuth2Client } = require('google-auth-library');
 const connection = require('../config/db');
+const bcrypt = require('bcrypt');
 const multer = require('multer');
 const path = require('path');
 
@@ -14,6 +16,59 @@ const storage = multer.diskStorage({
 });
 
 const upload = multer({ storage });
+
+const googleClient = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
+
+exports.googleLogin = async (req, res) => {
+  const { token } = req.body;
+
+  try {
+    const ticket = await googleClient.verifyIdToken({
+      idToken: token,
+      audience: process.env.GOOGLE_CLIENT_ID,
+    });
+    const { name, email, picture } = ticket.getPayload();
+
+    let [rows] = await connection.query('SELECT * FROM users WHERE email = ?', [email]);
+    let user = rows[0];
+    if (!user) {
+      const query = 'INSERT INTO users (username, email, avatar, created_at) VALUES (?, ?, ?, NOW())';
+      const [result] = await connection.query(query, [name, email, picture]);
+      user = { id: result.insertId, username: name, email, avatar: picture };
+    }
+
+    const accessToken = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+
+    res.json({ token: accessToken });
+  } catch (error) {
+    console.error('Error verifying Google token:', error);
+    res.status(401).json({ message: 'Invalid Google token' });
+  }
+};
+
+exports.facebookLogin = async (req, res) => {
+  const { token } = req.body;
+
+  try {
+    const response = await axios.get(`https://graph.facebook.com/me?access_token=${token}&fields=name,email,picture`);
+    const { name, email, picture } = response.data;
+
+    let [rows] = await connection.query('SELECT * FROM users WHERE email = ?', [email]);
+    let user = rows[0];
+    if (!user) {
+      const query = 'INSERT INTO users (username, email, avatar, created_at) VALUES (?, ?, ?, NOW())';
+      const [result] = await connection.query(query, [name, email, picture.data.url]);
+      user = { id: result.insertId, username: name, email, avatar: picture.data.url };
+    }
+
+    const accessToken = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+
+    res.json({ token: accessToken });
+  } catch (error) {
+    console.error('Error verifying Facebook token:', error);
+    res.status(401).json({ message: 'Invalid Facebook token' });
+  }
+};
 
 exports.registerUser = async (req, res) => {
   const { username, password, email, preferences } = req.body;

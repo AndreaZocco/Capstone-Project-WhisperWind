@@ -31,6 +31,7 @@ body {
 .NavLinks {
   display: flex;
   gap: 20px;
+  position: relative;
 }
 
 .NavLink {
@@ -48,6 +49,31 @@ body {
   text-decoration: underline;
 }
 
+.DropdownMenu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: #1e1e1e;
+  border: 1px solid #333;
+  border-radius: 5px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+}
+
+.DropdownItem {
+  padding: 10px 20px;
+  color: #e0e0e0;
+  text-decoration: none;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.DropdownItem:hover {
+  background-color: #333;
+  color: #fff;
+}
+
 .card-container {
   width: 200px;
   height: 300px;
@@ -56,6 +82,7 @@ body {
   overflow: hidden;
   position: relative;
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5); 
+  cursor: pointer;
   transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
 }
 
@@ -102,4 +129,67 @@ body {
   font-size: 24px;
   font-weight: bold;
   text-transform: uppercase; 
+}
+
+.swiper-button-prev, .swiper-button-next {
+  color: #007BFF;
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 10px;
+  border-radius: 25%;
+}
+
+.swiper-button-prev {
+  left: 0;
+}
+
+.swiper-button-next {
+  right: 0;
+}
+
+.NavIcons {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.NotificationIcon {
+  color: #e0e0e0;
+  cursor: pointer;
+  font-size: 20px;
+}
+
+.UserProfile {
+  position: relative;
+}
+
+.UserAvatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.ProfileDropdownMenu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background-color: #1e1e1e;
+  border: 1px solid #333;
+  border-radius: 5px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+}
+
+.ProfileDropdownMenu .DropdownItem {
+  padding: 10px 20px;
+  color: #e0e0e0;
+  text-decoration: none;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.ProfileDropdownMenu .DropdownItem:hover {
+  background-color: #333;
+  color: #fff;
 }

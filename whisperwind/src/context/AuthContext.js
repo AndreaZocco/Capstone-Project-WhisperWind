@@ -70,8 +70,12 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  const updateAvatar = (newAvatar) => {
+    setUser((prevUser) => ({ ...prevUser, avatar: newAvatar }));
+  };
+
   return (
-    <AuthContext.Provider value={{ isLoggedIn, user, login, register, logout, setIsLoggedIn }}>
+    <AuthContext.Provider value={{ isLoggedIn, user, login, register, logout, setIsLoggedIn, updateAvatar }}>
       {children}
     </AuthContext.Provider>
   );

@@ -1,7 +1,9 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import axios from 'axios';
 import { AuthContext } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';
+import FacebookLogin from 'react-facebook-login';
 import '../Login.css';
 
 const LoginPage = () => {
@@ -9,6 +11,26 @@ const LoginPage = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
+
+  useEffect(() => {
+    window.fbAsyncInit = function() {
+      FB.init({
+        appId: '25781547288159192',
+        cookie: true,
+        xfbml: true,
+        version: 'v14.0'
+      });
+      FB.AppEvents.logPageView();
+    };
+
+    (function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) { return; }
+      js = d.createElement(s); js.id = id;
+      js.src = "https://connect.facebook.net/en_US/sdk.js";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -20,6 +42,30 @@ const LoginPage = () => {
     } catch (error) {
       console.error('Error during login:', error);
       alert('Login failed. Please check your username and password.');
+    }
+  };
+
+  const handleGoogleSuccess = async (response) => {
+    try {
+      const res = await axios.post('http://localhost:5000/api/users/google-login', { token: response.credential });
+      login(res.data.token);
+      setIsLoggedIn(true);
+      navigate('/');
+    } catch (error) {
+      console.error('Error during Google login:', error);
+      alert('Google login failed.');
+    }
+  };
+
+  const handleFacebookResponse = async (response) => {
+    try {
+      const res = await axios.post('http://localhost:5000/api/users/facebook-login', { token: response.accessToken });
+      login(res.data.token);
+      setIsLoggedIn(true);
+      navigate('/');
+    } catch (error) {
+      console.error('Error during Facebook login:', error);
+      alert('Facebook login failed.');
     }
   };
 
@@ -50,6 +96,23 @@ const LoginPage = () => {
           />
         </div>
         <button type="submit">Login</button>
+        <div className="social-login">
+          <GoogleOAuthProvider clientId="521727197386-p7pf3229i1ddjjdj99kcrrlkvsjep920.apps.googleusercontent.com">
+            <GoogleLogin
+              onSuccess={handleGoogleSuccess}
+              onError={() => console.log('Login Failed')}
+              useOneTap
+            />
+          </GoogleOAuthProvider>
+          <FacebookLogin
+            appId="25781547288159192"
+            autoLoad={false}
+            fields="name,email,picture"
+            callback={handleFacebookResponse}
+            textButton="Login with Facebook"
+            cssClass="facebook-login-button"
+          />
+        </div>
       </form>
     </div>
   );

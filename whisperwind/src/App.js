@@ -8,8 +8,10 @@ import Home from './pages/Home';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import ProfilePage from './pages/Profile';
-import Categories from './pages/Categories';
 import AboutASMR from './pages/AboutASMR';
+import CategoryPage from './pages/CategoryPage';
+import News from './pages/News';
+import PrivacyPage from './pages/PrivacyPage';
 import { AuthProvider } from './context/AuthContext';
 import Footer from './components/Footer';
 import logo from './assets/logo.png'; 
@@ -28,8 +30,10 @@ const App = () => {
             <Route path="/login" element={<LoginPage />} />
             <Route path="/register" element={<RegisterPage />} />
             <Route path="/profile" element={<ProfilePage />} />
-            <Route path="/categories" element={<Categories />} />
             <Route path="/about-asmr" element={<AboutASMR />} />
+            <Route path="/news" element={<News />} />
+            <Route path="/category/:categoryName" element={<CategoryPage />} />
+            <Route path="/privacy" element={<PrivacyPage />} /> {}
           </Routes>
           <Footer />
           <ToastContainer />

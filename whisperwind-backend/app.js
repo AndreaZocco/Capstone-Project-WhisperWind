@@ -5,7 +5,7 @@ const userRoutes = require('./routes/userRoutes');
 const app = express();
 
 const corsOptions = {
-  origin: 'https://capstone-project-whisper-wind-b9wn2d5m3.vercel.app/',
+  origin: 'https://capstone-project-whisper-wind.vercel.app',
 };
 
 app.use(cors(corsOptions));

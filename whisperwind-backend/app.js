@@ -5,7 +5,7 @@ const userRoutes = require('./routes/userRoutes');
 const app = express();
 
 const corsOptions = {
-  origin: 'http://localhost:3000',
+  origin: 'https://capstone-project-whisper-wind-9x939b9ph.vercel.app/.vercel.app', 
   optionsSuccessStatus: 200
 };
 

@@ -4,7 +4,7 @@ import axios from 'axios';
 import { AuthContext } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';
-import FacebookLogin from 'react-facebook-login';
+import FacebookLogin from '@greatsumini/react-facebook-login';
 import '../Login.css';
 
 const LoginPage = () => {
@@ -109,9 +109,13 @@ const LoginPage = () => {
             appId="25781547288159192"
             autoLoad={false}
             fields="name,email,picture"
-            callback={handleFacebookResponse}
-            textButton="Login with Facebook"
-            cssClass="facebook-login-button"
+            onSuccess={handleFacebookResponse}
+            onFail={(error) => console.error('Facebook login failed:', error)}
+            render={({ onClick }) => (
+              <button onClick={onClick} className="facebook-login-button">
+                Login with Facebook
+              </button>
+            )}
           />
         </div>
       </form>

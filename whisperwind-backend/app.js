@@ -5,7 +5,7 @@ const userRoutes = require('./routes/userRoutes');
 const app = express();
 
 const corsOptions = {
-  origin: 'https://capstone-project-whisper-wind.vercel.app/',
+  origin: 'http://localhost:3000',
   optionsSuccessStatus: 200
 };
 
@@ -13,7 +13,6 @@ app.use(cors(corsOptions));
 app.use(express.json());
 
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
-
 app.use('/api/users', userRoutes);
 
 app.use(express.static(path.join(__dirname, 'build')));

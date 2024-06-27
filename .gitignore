@@ -12,7 +12,6 @@ yarn-debug.log*
 yarn-error.log*
 
 # Directory di output del build
-build/
 dist/
 
 # Mac OS files

@@ -1,128 +1,118 @@
-/* global FB */
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext } from 'react';
 import axios from 'axios';
 import { AuthContext } from '../context/AuthContext';
+import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
-import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';
-import FacebookLogin from '@greatsumini/react-facebook-login';
-import '../Login.css';
+import '../Register.css';
 
-const LoginPage = () => {
-  const { login, setIsLoggedIn } = useContext(AuthContext);
+const preferencesOptions = [
+  'Relaxing Waves', 'Gentle Rain', 'Forest Sounds', 'Mountain Stream',
+  'Bird Chirping', 'Ocean Breeze', 'Thunderstorm', 'Night Sounds',
+  'River Flow', 'Wind Blowing', 'Crackling Fire', 'Soft Piano',
+  'Tapping', 'Whispering', 'Brushing', 'Typing',
+  'Mouth Sounds', 'Hair Cutting'
+];
+
+const RegisterPage = () => {
+  const { register } = useContext(AuthContext);
   const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [avatar, setAvatar] = useState(null);
+  const [preferences, setPreferences] = useState([]);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    window.fbAsyncInit = function() {
-      FB.init({
-        appId: '25781547288159192',
-        cookie: true,
-        xfbml: true,
-        version: 'v14.0'
-      });
-      FB.AppEvents.logPageView();
-    };
+  const handleAvatarChange = (e) => {
+    setAvatar(e.target.files[0]);
+  };
 
-    (function(d, s, id) {
-      var js, fjs = d.getElementsByTagName(s)[0];
-      if (d.getElementById(id)) { return; }
-      js = d.createElement(s); js.id = id;
-      js.src = "https://connect.facebook.net/en_US/sdk.js";
-      fjs.parentNode.insertBefore(js, fjs);
-    }(document, 'script', 'facebook-jssdk'));
-  }, []);
+  const handlePreferencesChange = (e) => {
+    const value = e.target.value;
+    setPreferences((prevPreferences) => {
+      if (prevPreferences.includes(value)) {
+        return prevPreferences.filter((preference) => preference !== value);
+      } else if (prevPreferences.length < 5) {
+        return [...prevPreferences, value];
+      } else {
+        return prevPreferences;
+      }
+    });
+  };
+
+  const handleRemovePreference = (preferenceToRemove) => {
+    setPreferences((prevPreferences) =>
+      prevPreferences.filter((preference) => preference !== preferenceToRemove)
+    );
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      const response = await axios.post('https://capstone-project-whisper-wind.vercel.app/api/users/login', 
-      { username, password }, 
-      { withCredentials: true });
-      login(response.data.token);
-      setIsLoggedIn(true);
-      navigate('/');
-    } catch (error) {
-      console.error('Error during login:', error);
-      alert('Login failed. Please check your username and password.');
-    }
-  };
-  
+    const formData = new FormData();
+    formData.append('username', username);
+    formData.append('password', password);
+    formData.append('email', email);
+    formData.append('avatar', avatar);
+    formData.append('preferences', preferences.join(','));
 
-  const handleGoogleSuccess = async (response) => {
     try {
-      const res = await axios.post('https://capstone-project-whisper-wind.vercel.app/api/users/google-login', { token: response.credential });
-      login(res.data.token);
-      setIsLoggedIn(true);
-      navigate('/');
+      const response = await axios.post('https://capstone-project-whisper-wind.vercel.app/api/users/register', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      register(response.data.token, response.data.user);
+      toast.success('Registered successfully! You are now logged in.');
+      navigate('/profile');
     } catch (error) {
-      console.error('Error during Google login:', error);
-      alert('Google login failed.');
-    }
-  };
-
-  const handleFacebookResponse = async (response) => {
-    try {
-      const res = await axios.post('https://capstone-project-whisper-wind.vercel.app/api/users/facebook-login', { token: response.accessToken });
-      login(res.data.token);
-      setIsLoggedIn(true);
-      navigate('/');
-    } catch (error) {
-      console.error('Error during Facebook login:', error);
-      alert('Facebook login failed.');
+      console.error('Error during registration:', error);
+      toast.error('Registration failed. Please try again.');
     }
   };
 
   return (
     <div className="form-container">
       <form onSubmit={handleSubmit}>
-        <h2>Login</h2>
+        <h2>Register</h2>
         <div>
           <label htmlFor="username">Username</label>
-          <input 
-            type="text" 
-            id="username"
-            value={username} 
-            onChange={(e) => setUsername(e.target.value)} 
-            placeholder="Username" 
-            required 
-          />
+          <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} placeholder="Username" required />
+        </div>
+        <div>
+          <label htmlFor="email">Email</label>
+          <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email" required />
         </div>
         <div>
           <label htmlFor="password">Password</label>
-          <input 
-            type="password" 
-            id="password"
-            value={password} 
-            onChange={(e) => setPassword(e.target.value)} 
-            placeholder="Password" 
-            required 
-          />
+          <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Password" required />
         </div>
-        <button type="submit">Login</button>
-        <div className="social-login">
-          <GoogleOAuthProvider clientId="521727197386-p7pf3229i1ddjjdj99kcrrlkvsjep920.apps.googleusercontent.com">
-            <GoogleLogin
-              onSuccess={handleGoogleSuccess}
-              onError={() => console.log('Login Failed')}
-            />
-          </GoogleOAuthProvider>
-          <FacebookLogin
-            appId="25781547288159192"
-            autoLoad={false}
-            fields="name,email,picture"
-            onSuccess={handleFacebookResponse}
-            onFail={(error) => console.error('Facebook login failed:', error)}
-            render={({ onClick }) => (
-              <button onClick={onClick} className="facebook-login-button">
-                Login with Facebook
-              </button>
-            )}
-          />
+        <div className="avatar-container">
+          <label className="avatar-label">Avatar:</label>
+          <input type="file" onChange={handleAvatarChange} />
         </div>
+        <div className="preferences-container">
+          <label>ASMR Preferences (Select up to 5):</label>
+          <div className="preferences-selection">
+            <select onChange={handlePreferencesChange}>
+              <option value="">Select a preference</option>
+              {preferencesOptions.map((option) => (
+                <option key={option} value={option}>
+                  {option}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="selected-preferences">
+            {preferences.map((preference) => (
+              <div key={preference} className="preference-item">
+                {preference} <button type="button" onClick={() => handleRemovePreference(preference)}>x</button>
+              </div>
+            ))}
+          </div>
+        </div>
+        <button type="submit">Register</button>
       </form>
     </div>
   );
 };
 
-export default LoginPage;
+export default RegisterPage;

@@ -4,11 +4,21 @@ const cors = require('cors');
 const userRoutes = require('./routes/userRoutes');
 const app = express();
 
+const allowedOrigins = [
+  'https://capstone-project-whisper-wind.vercel.app',
+  'https://capstone-project-whisper-wind-b9wn2d5m3.vercel.app', 
+  'https://capstone-project-whisper-wind-e3v3keay7.vercel.app',
+];
+
 const corsOptions = {
-  origin: 'https://capstone-project-whisper-wind.vercel.app',
+  origin: function (origin, callback) {
+    if (allowedOrigins.includes(origin) || !origin) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   credentials: true,
-  methods: 'GET,OPTIONS,PATCH,DELETE,POST,PUT',
-  allowedHeaders: 'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version'
 };
 
 app.use(cors(corsOptions));

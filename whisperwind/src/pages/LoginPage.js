@@ -114,7 +114,7 @@ const LoginPage = () => {
             onSuccess={handleFacebookResponse}
             onFail={(error) => console.error('Facebook login failed:', error)}
             render={({ onClick }) => (
-              <button onClick={onClick} className="facebook-login-button">
+              <button type="button" onClick={onClick} className="facebook-login-button">
                 Login with Facebook
               </button>
             )}

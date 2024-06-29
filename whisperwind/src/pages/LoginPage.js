@@ -1,10 +1,9 @@
-/* global FB */
 import React, { useState, useContext, useEffect } from 'react';
 import axios from 'axios';
 import { AuthContext } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';
-import FacebookLogin from '@greatsumini/react-facebook-login';
+import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props';
 import '../Login.css';
 
 const LoginPage = () => {
@@ -12,16 +11,6 @@ const LoginPage = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
-
-  useEffect(() => {
-    (function(d, s, id) {
-      var js, fjs = d.getElementsByTagName(s)[0];
-      if (d.getElementById(id)) { return; }
-      js = d.createElement(s); js.id = id;
-      js.src = "https://connect.facebook.net/en_US/sdk.js#version=v14.0&appId=25781547288159192&xfbml=true&autoLogAppEvents=true";
-      fjs.parentNode.insertBefore(js, fjs);
-    }(document, 'script', 'facebook-jssdk'));
-  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -107,8 +96,7 @@ const LoginPage = () => {
             appId="25781547288159192"
             autoLoad={false}
             fields="name,email,picture"
-            onSuccess={handleFacebookResponse}
-            onFail={(error) => console.error('Facebook login failed:', error)}
+            callback={handleFacebookResponse}
             render={({ onClick }) => (
               <button type="button" onClick={onClick} className="facebook-login-button">
                 Login with Facebook

@@ -23,7 +23,7 @@ const Profile = () => {
     const token = localStorage.getItem('token');
     try {
       setLoading(true);
-      const response = await axios.post('http://localhost:5000/api/users/me', formData, {
+      const response = await axios.post('https://capstone-project-whisper-wind.vercel.app/api/users/me', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
           'Authorization': token
@@ -43,7 +43,7 @@ const Profile = () => {
       {user ? (
         <div className="profile-details">
           <img
-            src={user.avatar ? `http://localhost:5000${user.avatar}` : placeholderAvatar}
+            src={user.avatar ? `https://capstone-project-whisper-wind.vercel.app${user.avatar}` : placeholderAvatar}
             alt="Avatar"
             className="profile-avatar"
           />

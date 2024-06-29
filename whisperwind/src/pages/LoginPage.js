@@ -14,21 +14,11 @@ const LoginPage = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    window.fbAsyncInit = function() {
-      FB.init({
-        appId: '25781547288159192',
-        cookie: true,
-        xfbml: true,
-        version: 'v14.0'
-      });
-      FB.AppEvents.logPageView();
-    };
-
     (function(d, s, id) {
       var js, fjs = d.getElementsByTagName(s)[0];
       if (d.getElementById(id)) { return; }
       js = d.createElement(s); js.id = id;
-      js.src = "https://connect.facebook.net/en_US/sdk.js";
+      js.src = "https://connect.facebook.net/en_US/sdk.js#version=v14.0&appId=25781547288159192&xfbml=true&autoLogAppEvents=true";
       fjs.parentNode.insertBefore(js, fjs);
     }(document, 'script', 'facebook-jssdk'));
   }, []);

@@ -12,7 +12,7 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (token) {
-      axios.get('http://localhost:5000/api/users/me', {
+      axios.get('https://capstone-project-whisper-wind.vercel.app/api/users/me', {
         headers: {
           Authorization: token
         }
@@ -29,7 +29,7 @@ export const AuthProvider = ({ children }) => {
   const login = async (token, showToast = true) => {
     localStorage.setItem('token', token);
     try {
-      const response = await axios.get('http://localhost:5000/api/users/me', {
+      const response = await axios.get('https://capstone-project-whisper-wind.vercel.app/api/users/me', {
         headers: {
           Authorization: token
         }
@@ -56,7 +56,7 @@ export const AuthProvider = ({ children }) => {
   const logout = async () => {
     const token = localStorage.getItem('token');
     try {
-      await axios.post('http://localhost:5000/api/users/logout', {}, {
+      await axios.post('https://capstone-project-whisper-wind.vercel.app/api/users/logout', {}, {
         headers: {
           Authorization: token
         }

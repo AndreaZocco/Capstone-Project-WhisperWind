@@ -36,7 +36,7 @@ const LoginPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('https://capstone-project-whisper-wind.vercel.app/api/users/login', 
+      const response = await axios.get('https://capstone-project-whisper-wind.vercel.app/api/users/login', 
       { username, password }, 
       { withCredentials: true });
       login(response.data.token);
@@ -51,7 +51,7 @@ const LoginPage = () => {
 
   const handleGoogleSuccess = async (response) => {
     try {
-      const res = await axios.post('https://capstone-project-whisper-wind.vercel.app/api/users/google-login', { token: response.credential });
+      const res = await axios.get('https://capstone-project-whisper-wind.vercel.app/api/users/google-login', { token: response.credential });
       login(res.data.token);
       setIsLoggedIn(true);
       navigate('/');
@@ -63,7 +63,7 @@ const LoginPage = () => {
 
   const handleFacebookResponse = async (response) => {
     try {
-      const res = await axios.post('https://capstone-project-whisper-wind.vercel.app/api/users/facebook-login', { token: response.accessToken });
+      const res = await axios.get('https://capstone-project-whisper-wind.vercel.app/api/users/facebook-login', { token: response.accessToken });
       login(res.data.token);
       setIsLoggedIn(true);
       navigate('/');

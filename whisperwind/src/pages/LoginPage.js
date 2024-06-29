@@ -37,8 +37,7 @@ const LoginPage = () => {
     e.preventDefault();
     try {
       const response = await axios.get('https://capstone-project-whisper-wind.vercel.app/api/users/login', 
-      { username, password }, 
-      { withCredentials: true });
+      { params: { username, password }, withCredentials: true });
       login(response.data.token);
       setIsLoggedIn(true);
       navigate('/');
@@ -47,7 +46,6 @@ const LoginPage = () => {
       alert('Login failed. Please check your username and password.');
     }
   };
-  
 
   const handleGoogleSuccess = async (response) => {
     try {
@@ -63,7 +61,7 @@ const LoginPage = () => {
 
   const handleFacebookResponse = async (response) => {
     try {
-      const res = await axios.get('https://capstone-project-whisper-wind.vercel.app/api/users/facebook-login', { token: response.accessToken });
+      const res = await axios.get('https://capstone-project-whisper-wind.vercel.app/api/users/facebook-login', { params: { token: response.accessToken }, withCredentials: true });
       login(res.data.token);
       setIsLoggedIn(true);
       navigate('/');

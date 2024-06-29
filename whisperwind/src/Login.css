@@ -75,3 +75,28 @@ h2 {
   color: #e0e0e0;
   margin-bottom: 30px;
 }
+
+.social-login {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.facebook-login-button {
+  width: 100%;
+  padding: 12px;
+  background-color: #3b5998;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.3s;
+  text-align: center;
+}
+
+.facebook-login-button:hover {
+  background-color: #2d4373;
+  transform: scale(1.05);
+}

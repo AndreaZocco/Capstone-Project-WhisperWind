@@ -56,7 +56,7 @@ const LoginPage = () => {
 
   const handleFacebookResponse = async (response) => {
     try {
-      const res = await axios.get('https://capstone-project-whisper-wind.vercel.app/api/users/facebook-login', {
+      const res = await axios.post('https://capstone-project-whisper-wind.vercel.app/api/users/facebook-login', {
         params: { token: response.accessToken },
         withCredentials: true
       });

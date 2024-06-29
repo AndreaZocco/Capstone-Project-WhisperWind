@@ -36,8 +36,10 @@ const LoginPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.get('https://capstone-project-whisper-wind.vercel.app/api/users/login', 
-      { params: { username, password }, withCredentials: true });
+      const response = await axios.get('https://capstone-project-whisper-wind.vercel.app/api/users/login', {
+        params: { username, password },
+        withCredentials: true
+      });
       login(response.data.token);
       setIsLoggedIn(true);
       navigate('/');
@@ -49,7 +51,10 @@ const LoginPage = () => {
 
   const handleGoogleSuccess = async (response) => {
     try {
-      const res = await axios.get('https://capstone-project-whisper-wind.vercel.app/api/users/google-login', { token: response.credential });
+      const res = await axios.get('https://capstone-project-whisper-wind.vercel.app/api/users/google-login', {
+        params: { token: response.credential },
+        withCredentials: true
+      });
       login(res.data.token);
       setIsLoggedIn(true);
       navigate('/');
@@ -61,7 +66,10 @@ const LoginPage = () => {
 
   const handleFacebookResponse = async (response) => {
     try {
-      const res = await axios.get('https://capstone-project-whisper-wind.vercel.app/api/users/facebook-login', { params: { token: response.accessToken }, withCredentials: true });
+      const res = await axios.get('https://capstone-project-whisper-wind.vercel.app/api/users/facebook-login', {
+        params: { token: response.accessToken },
+        withCredentials: true
+      });
       login(res.data.token);
       setIsLoggedIn(true);
       navigate('/');
@@ -77,24 +85,24 @@ const LoginPage = () => {
         <h2>Login</h2>
         <div>
           <label htmlFor="username">Username</label>
-          <input 
-            type="text" 
+          <input
+            type="text"
             id="username"
-            value={username} 
-            onChange={(e) => setUsername(e.target.value)} 
-            placeholder="Username" 
-            required 
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            placeholder="Username"
+            required
           />
         </div>
         <div>
           <label htmlFor="password">Password</label>
-          <input 
-            type="password" 
+          <input
+            type="password"
             id="password"
-            value={password} 
-            onChange={(e) => setPassword(e.target.value)} 
-            placeholder="Password" 
-            required 
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="Password"
+            required
           />
         </div>
         <button type="submit">Login</button>

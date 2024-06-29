@@ -56,7 +56,7 @@ export const AuthProvider = ({ children }) => {
   const logout = async () => {
     const token = localStorage.getItem('token');
     try {
-      await axios.post('https://capstone-project-whisper-wind.vercel.app/api/users/logout', {}, {
+      await axios.get('https://capstone-project-whisper-wind.vercel.app/api/users/logout', {}, {
         headers: {
           Authorization: token
         }

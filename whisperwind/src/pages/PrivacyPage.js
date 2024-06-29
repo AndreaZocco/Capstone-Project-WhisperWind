@@ -43,6 +43,14 @@ const PrivacyPage = () => {
       <h2>Contact Us</h2>
       <p>If you have any questions about this privacy policy or our privacy practices, please contact us at:</p>
       <p>Email: support@whisperwind.com</p>
+
+      <h2>Data Deletion Instructions</h2>
+      <p>If you wish to delete your personal data, please follow these steps:</p>
+      <ul>
+        <li>Send an email to <a href="mailto:support@whisperwind.com">support@whisperwind.com</a> with the subject "Data Deletion Request".</li>
+        <li>Include your username and the email address associated with your account in the email body.</li>
+        <li>We will process your request within 30 days and confirm the deletion of your data via email.</li>
+      </ul>
     </div>
   );
 };

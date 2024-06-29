@@ -13,18 +13,15 @@ const Profile = () => {
   useEffect(() => {
     const fetchProfileData = async () => {
       const token = localStorage.getItem('token');
-      if (token) {
-        try {
-          const response = await axios.get('https://capstone-project-whisper-wind.vercel.app/api/users/me', {
-            headers: {
-              Authorization: token
-            }
-          });
-          setProfileData(response.data);
-          console.log('Profile data:', response.data);
-        } catch (error) {
-          console.error('Error fetching profile data:', error);
-        }
+      try {
+        const response = await axios.get('https://capstone-project-whisper-wind.vercel.app/api/users/me', {
+          headers: {
+            'Authorization': token
+          }
+        });
+        setProfileData(response.data);
+      } catch (error) {
+        console.error('Error fetching profile data:', error);
       }
     };
 
@@ -59,31 +56,31 @@ const Profile = () => {
     }
   };
 
+  if (!profileData) {
+    return <p>Loading...</p>;
+  }
+
   return (
     <div className="profile-container">
       <h2>User Profile</h2>
-      {profileData ? (
-        <div className="profile-details">
-          <img
-            src={profileData.avatar ? `https://capstone-project-whisper-wind.vercel.app${profileData.avatar}` : placeholderAvatar}
-            alt="Avatar"
-            className="profile-avatar"
-          />
-          <p><strong>Username:</strong> {profileData.username}</p>
-          <p><strong>Email:</strong> {profileData.email}</p>
-          <p><strong>Joined:</strong> {new Date(profileData.created_at).toLocaleDateString()}</p>
-          <p><strong>Preferences:</strong> {profileData.preferences || 'No preferences set'}</p>
-          <form onSubmit={handleSubmit}>
-            <label>
-              Avatar:
-              <input type="file" onChange={handleAvatarChange} />
-            </label>
-            <button type="submit" disabled={loading}>{loading ? 'Updating...' : 'Update Avatar'}</button>
-          </form>
-        </div>
-      ) : (
-        <p>Loading...</p>
-      )}
+      <div className="profile-details">
+        <img
+          src={profileData.avatar ? `https://capstone-project-whisper-wind.vercel.app${profileData.avatar}` : placeholderAvatar}
+          alt="Avatar"
+          className="profile-avatar"
+        />
+        <p><strong>Username:</strong> {profileData.username}</p>
+        <p><strong>Email:</strong> {profileData.email}</p>
+        <p><strong>Joined:</strong> {new Date(profileData.created_at).toLocaleDateString()}</p>
+        <p><strong>Preferences:</strong> {profileData.preferences || 'No preferences set'}</p>
+        <form onSubmit={handleSubmit}>
+          <label>
+            Avatar:
+            <input type="file" onChange={handleAvatarChange} />
+          </label>
+          <button type="submit" disabled={loading}>{loading ? 'Updating...' : 'Update Avatar'}</button>
+        </form>
+      </div>
     </div>
   );
 };

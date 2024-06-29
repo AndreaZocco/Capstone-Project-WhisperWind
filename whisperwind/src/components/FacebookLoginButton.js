@@ -1,5 +1,7 @@
 import React from 'react';
-import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props';
+import FacebookLogin from '@greatsumini/react-facebook-login';
+
+const appId = '25781547288159192';
 
 const FacebookLoginButton = ({ onLoginSuccess }) => {
   const handleResponse = (response) => {
@@ -7,19 +9,19 @@ const FacebookLoginButton = ({ onLoginSuccess }) => {
     onLoginSuccess(response);
   };
 
-  const handleError = (response) => {
-    console.error('Facebook login failed:', response);
+  const handleError = (error) => {
+    console.error('Facebook login failed:', error);
   };
 
   return (
     <FacebookLogin
-      appId="25781547288159192"
+      appId={appId}
       autoLoad={false}
       fields="name,email,picture"
-      callback={handleResponse}
-      onFailure={handleError}
-      render={(renderProps) => (
-        <button type="button" onClick={renderProps.onClick} className="facebook-login-button">
+      onSuccess={handleResponse}
+      onFail={handleError}
+      render={({ onClick }) => (
+        <button type="button" onClick={onClick} className="facebook-login-button">
           Login with Facebook
         </button>
       )}

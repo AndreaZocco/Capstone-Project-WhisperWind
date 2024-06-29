@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext } from 'react';
 import axios from 'axios';
 import { AuthContext } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
@@ -11,28 +11,6 @@ const LoginPage = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
-
-  useEffect(() => {
-    if (process.env.facebookAutoInitEnabled) {
-      window.fbAsyncInit = function() {
-        FB.init({
-          appId: process.env.facebookAppId,
-          cookie: true,
-          xfbml: true,
-          version: 'v14.0'
-        });
-        FB.AppEvents.logPageView();
-      };
-
-      (function(d, s, id) {
-        var js, fjs = d.getElementsByTagName(s)[0];
-        if (d.getElementById(id)) { return; }
-        js = d.createElement(s); js.id = id;
-        js.src = `https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v14.0&appId=${process.env.facebookAppId}&autoLogAppEvents=1`;
-        fjs.parentNode.insertBefore(js, fjs);
-      }(document, 'script', 'facebook-jssdk'));
-    }
-  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -118,7 +96,7 @@ const LoginPage = () => {
               onError={() => console.log('Login Failed')}
             />
           </GoogleOAuthProvider>
-          <FacebookProvider appId={process.env.facebookAppId}>
+          <FacebookProvider appId="25781547288159192">
             <LoginButton
               scope="email"
               onCompleted={handleFacebookResponse}

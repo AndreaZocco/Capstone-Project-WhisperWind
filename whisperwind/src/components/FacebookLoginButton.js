@@ -1,7 +1,5 @@
 import React from 'react';
-import FacebookLogin from 'react-facebook-login';
-
-const appId = '25781547288159192';
+import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props';
 
 const FacebookLoginButton = ({ onLoginSuccess }) => {
   const handleResponse = (response) => {
@@ -9,13 +7,22 @@ const FacebookLoginButton = ({ onLoginSuccess }) => {
     onLoginSuccess(response);
   };
 
+  const handleError = (response) => {
+    console.error('Facebook login failed:', response);
+  };
+
   return (
     <FacebookLogin
-      appId={appId}
+      appId="25781547288159192"
       autoLoad={false}
       fields="name,email,picture"
       callback={handleResponse}
-      textButton="Login with Facebook"
+      onFailure={handleError}
+      render={(renderProps) => (
+        <button type="button" onClick={renderProps.onClick} className="facebook-login-button">
+          Login with Facebook
+        </button>
+      )}
     />
   );
 };

@@ -1,13 +1,33 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import axios from 'axios';
 import '../Profile.css';
 import placeholderAvatar from '../assets/abstract-user-flat-4.svg';
 
 const Profile = () => {
-  const { user, updateAvatar } = useContext(AuthContext);
+  const { user, updateAvatar, setUser } = useContext(AuthContext);
   const [avatar, setAvatar] = useState(null);
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const fetchProfile = async () => {
+      const token = localStorage.getItem('token');
+      if (token) {
+        try {
+          const response = await axios.get('https://capstone-project-whisper-wind.vercel.app/api/users/me', {
+            headers: {
+              'Authorization': token
+            }
+          });
+          setUser(response.data);
+          console.log('Profile data:', response.data); // Debugging log
+        } catch (error) {
+          console.error('Error fetching profile data:', error); // Debugging log
+        }
+      }
+    };
+    fetchProfile();
+  }, [setUser]);
 
   const handleAvatarChange = (e) => {
     setAvatar(e.target.files[0]);

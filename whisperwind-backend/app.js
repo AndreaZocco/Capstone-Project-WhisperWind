@@ -5,9 +5,7 @@ const userRoutes = require('./routes/userRoutes');
 const app = express();
 
 const allowedOrigins = [
-  'https://capstone-project-whisper-wind.vercel.app',
-  'https://capstone-project-whisper-wind-b9wn2d5m3.vercel.app', 
-  'https://capstone-project-whisper-wind-e3v3keay7.vercel.app',
+  'https://capstone-project-whisper-wind.vercel.app'
 ];
 
 const corsOptions = {

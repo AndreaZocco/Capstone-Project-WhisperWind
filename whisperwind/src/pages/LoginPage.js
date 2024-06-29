@@ -19,7 +19,7 @@ const LoginPage = () => {
         appId: '25781547288159192',
         cookie: true,
         xfbml: true,
-        version: 'v14.0' // Assicurati che questa sia una versione valida
+        version: 'v14.0'
       });
       FB.AppEvents.logPageView();
     };
@@ -47,6 +47,7 @@ const LoginPage = () => {
       alert('Login failed. Please check your username and password.');
     }
   };
+  
 
   const handleGoogleSuccess = async (response) => {
     try {
@@ -113,7 +114,7 @@ const LoginPage = () => {
             onSuccess={handleFacebookResponse}
             onFail={(error) => console.error('Facebook login failed:', error)}
             render={({ onClick }) => (
-              <button onClick={onClick} className="facebook-login-button">
+              <button type="button" onClick={onClick} className="facebook-login-button">
                 Login with Facebook
               </button>
             )}

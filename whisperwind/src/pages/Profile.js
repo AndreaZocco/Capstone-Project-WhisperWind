@@ -42,7 +42,7 @@ const Profile = () => {
     const token = localStorage.getItem('token');
     try {
       setLoading(true);
-      const response = await axios.post('https://capstone-project-whisper-wind.vercel.app/api/users/me', formData, {
+      const response = await axios.get('https://capstone-project-whisper-wind.vercel.app/api/users/me', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
           'Authorization': token

@@ -5,29 +5,31 @@ import '../Profile.css';
 import placeholderAvatar from '../assets/abstract-user-flat-4.svg';
 
 const Profile = () => {
-  const { user, updateAvatar, setUser } = useContext(AuthContext);
+  const { user, updateAvatar, login } = useContext(AuthContext);
   const [avatar, setAvatar] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [profileData, setProfileData] = useState(null);
 
   useEffect(() => {
-    const fetchProfile = async () => {
+    const fetchProfileData = async () => {
       const token = localStorage.getItem('token');
       if (token) {
         try {
           const response = await axios.get('https://capstone-project-whisper-wind.vercel.app/api/users/me', {
             headers: {
-              'Authorization': token
+              Authorization: token
             }
           });
-          setUser(response.data);
-          console.log('Profile data:', response.data); // Debugging log
+          setProfileData(response.data);
+          console.log('Profile data:', response.data);
         } catch (error) {
-          console.error('Error fetching profile data:', error); // Debugging log
+          console.error('Error fetching profile data:', error);
         }
       }
     };
-    fetchProfile();
-  }, [setUser]);
+
+    fetchProfileData();
+  }, []);
 
   const handleAvatarChange = (e) => {
     setAvatar(e.target.files[0]);
@@ -60,17 +62,17 @@ const Profile = () => {
   return (
     <div className="profile-container">
       <h2>User Profile</h2>
-      {user ? (
+      {profileData ? (
         <div className="profile-details">
           <img
-            src={user.avatar ? `https://capstone-project-whisper-wind.vercel.app${user.avatar}` : placeholderAvatar}
+            src={profileData.avatar ? `https://capstone-project-whisper-wind.vercel.app${profileData.avatar}` : placeholderAvatar}
             alt="Avatar"
             className="profile-avatar"
           />
-          <p><strong>Username:</strong> {user.username}</p>
-          <p><strong>Email:</strong> {user.email}</p>
-          <p><strong>Joined:</strong> {new Date(user.created_at).toLocaleDateString()}</p>
-          <p><strong>Preferences:</strong> {user.preferences || 'No preferences set'}</p>
+          <p><strong>Username:</strong> {profileData.username}</p>
+          <p><strong>Email:</strong> {profileData.email}</p>
+          <p><strong>Joined:</strong> {new Date(profileData.created_at).toLocaleDateString()}</p>
+          <p><strong>Preferences:</strong> {profileData.preferences || 'No preferences set'}</p>
           <form onSubmit={handleSubmit}>
             <label>
               Avatar:

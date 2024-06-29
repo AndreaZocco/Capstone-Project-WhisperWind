@@ -3,7 +3,7 @@ import axios from 'axios';
 import { AuthContext } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';
-import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props';
+import { FacebookProvider, LoginButton } from 'react-facebook';
 import '../Login.css';
 
 const LoginPage = () => {
@@ -43,10 +43,10 @@ const LoginPage = () => {
     }
   };
 
-  const handleFacebookResponse = async (response) => {
+  const handleFacebookResponse = async (data) => {
     try {
       const res = await axios.get('https://capstone-project-whisper-wind.vercel.app/api/users/facebook-login', {
-        params: { token: response.accessToken },
+        params: { token: data.tokenDetail.accessToken },
         withCredentials: true
       });
       login(res.data.token);
@@ -92,17 +92,16 @@ const LoginPage = () => {
               onError={() => console.log('Login Failed')}
             />
           </GoogleOAuthProvider>
-          <FacebookLogin
-            appId="25781547288159192"
-            autoLoad={false}
-            fields="name,email,picture"
-            callback={handleFacebookResponse}
-            render={({ onClick }) => (
-              <button type="button" onClick={onClick} className="facebook-login-button">
+          <FacebookProvider appId="25781547288159192">
+            <LoginButton
+              onCompleted={handleFacebookResponse}
+              onError={(error) => console.error('Facebook login failed:', error)}
+            >
+              <button type="button" className="facebook-login-button">
                 Login with Facebook
               </button>
-            )}
-          />
+            </LoginButton>
+          </FacebookProvider>
         </div>
       </form>
     </div>

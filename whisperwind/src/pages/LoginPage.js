@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext } from 'react';
 import axios from 'axios';
 import { AuthContext } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
@@ -43,10 +43,14 @@ const LoginPage = () => {
     }
   };
 
-  const handleFacebookResponse = async (data) => {
+  const handleFacebookResponse = async (response) => {
+    if (response.status !== 'connected') {
+      alert('Facebook login failed.');
+      return;
+    }
     try {
       const res = await axios.get('https://capstone-project-whisper-wind.vercel.app/api/users/facebook-login', {
-        params: { token: data.tokenDetail.accessToken },
+        params: { token: response.authResponse.accessToken },
         withCredentials: true
       });
       login(res.data.token);
@@ -94,6 +98,7 @@ const LoginPage = () => {
           </GoogleOAuthProvider>
           <FacebookProvider appId="25781547288159192">
             <LoginButton
+              scope="email"
               onCompleted={handleFacebookResponse}
               onError={(error) => console.error('Facebook login failed:', error)}
             >

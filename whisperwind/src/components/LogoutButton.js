@@ -20,7 +20,7 @@ const LogoutButton = ({ setIsLoggedIn }) => {
     const token = localStorage.getItem('token');
 
     try {
-      await axios.post('http://localhost:5000/api/users/logout', {}, {
+      await axios.get('https://capstone-project-whisper-wind.vercel.app/api/users/logout', {}, {
         headers: {
           'Authorization': token
         }

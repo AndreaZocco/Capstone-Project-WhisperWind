@@ -5,7 +5,7 @@ import '../Profile.css';
 import placeholderAvatar from '../assets/abstract-user-flat-4.svg';
 
 const Profile = () => {
-  const { user, updateAvatar, login } = useContext(AuthContext);
+  const { updateAvatar } = useContext(AuthContext);
   const [avatar, setAvatar] = useState(null);
   const [loading, setLoading] = useState(false);
   const [profileData, setProfileData] = useState(null);

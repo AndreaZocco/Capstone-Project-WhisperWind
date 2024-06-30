@@ -15,7 +15,7 @@ const LoginPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.get('https://capstone-project-whisper-wind.vercel.app/api/users/login', {
+      const response = await axios.post('https://capstone-project-whisper-wind.vercel.app/api/users/login', {
         params: { username, password },
         withCredentials: true
       });
@@ -27,7 +27,7 @@ const LoginPage = () => {
       alert('Login failed. Please check your username and password.');
     }
   };
-  
+
   const handleGoogleSuccess = async (response) => {
     try {
       const res = await axios.post('https://capstone-project-whisper-wind.vercel.app/api/users/google-login', {

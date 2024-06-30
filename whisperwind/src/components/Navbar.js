@@ -14,11 +14,12 @@ const Navbar = () => {
 
   useEffect(() => {
     if (user?.avatar) {
-      setAvatar(`http://localhost:5000${user.avatar}`);
+      setAvatar(`https://whisperwind1.netlify.app${user.avatar}`);
     } else {
       setAvatar(placeholderAvatar);
     }
   }, [user]);
+
 
   const handleMouseEnter = () => {
     setShowDropdown(true);

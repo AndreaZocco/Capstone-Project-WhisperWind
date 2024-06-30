@@ -24,3 +24,6 @@ ehthumbs.db
 # IDE files
 .vscode/
 .idea/
+
+# Local Netlify folder
+.netlify

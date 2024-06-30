@@ -1,12 +1,13 @@
-// whisperwind-backend/app.js
+// functions/app.js
 const express = require('express');
 const path = require('path');
 const cors = require('cors');
 const userRoutes = require('./routes/userRoutes');
+const db = require('./config/db');
 const app = express();
 
 const allowedOrigins = [
-  'https://capstone-project-whisper-wind.vercel.app'
+ 'https://whisperwind1.netlify.app'
 ];
 
 const corsOptions = {
@@ -38,7 +39,6 @@ app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });
 
-const db = require('./config/db');
 db.connectToServer((err) => {
   if (err) {
     console.error('Error connecting to database:', err.stack);

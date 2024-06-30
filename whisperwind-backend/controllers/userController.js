@@ -80,6 +80,7 @@ exports.registerUser = async (req, res) => {
 
     const user = { id: result.insertId, username, email, avatar, preferences };
     const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+    console.log('User registered:', user);
     res.status(200).json({ token, user: { username: user.username, email: user.email, created_at: new Date(), avatar, preferences } });
   } catch (error) {
     console.error('Error registering user:', error);
@@ -100,6 +101,7 @@ exports.loginUser = async (req, res) => {
       return res.status(401).json({ error: 'Invalid username or password' });
     }
     const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+    console.log('User logged in:', user);
     res.status(200).json({ token });
   } catch (error) {
     console.error('Error logging in:', error);

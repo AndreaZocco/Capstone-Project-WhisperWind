@@ -8,6 +8,7 @@ const allowedOrigins = [
   'https://capstone-project-whisper-wind.vercel.app'
 ];
 
+
 const corsOptions = {
   origin: function (origin, callback) {
     if (allowedOrigins.includes(origin) || !origin) {

@@ -69,7 +69,7 @@ export const AuthProvider = ({ children }) => {
       console.error('Error during logout:', error);
     }
   };
-  
+
   const updateAvatar = (newAvatar) => {
     setUser((prevUser) => ({ ...prevUser, avatar: newAvatar }));
   };

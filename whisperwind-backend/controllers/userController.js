@@ -5,10 +5,13 @@ const connection = require('../config/db');
 const bcrypt = require('bcrypt');
 const multer = require('multer');
 const path = require('path');
+const os = require('os'); // Importa il modulo os
+
+const tempDir = os.tmpdir(); // Ottieni la directory temporanea del sistema
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, 'uploads/avatars/');
+    cb(null, tempDir); // Usa la directory temporanea del sistema
   },
   filename: (req, file, cb) => {
     cb(null, `${Date.now()}-${path.extname(file.originalname)}`);

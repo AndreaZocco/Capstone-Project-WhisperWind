@@ -1,28 +1,22 @@
-// whisperwind-backend/config/db.js
-const { MongoClient, ObjectId } = require('mongodb');
+const mysql = require('mysql2');
 require('dotenv').config();
 
-const client = new MongoClient(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true });
+const connection = mysql.createConnection({
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME,
+  ssl: {
+    rejectUnauthorized: false
+  }
+});
 
-let dbConnection;
+connection.connect(error => {
+  if (error) {
+    console.error('Error connecting to MySQL:', error);
+    process.exit(1);
+  }
+  console.log('Successfully connected to MySQL.');
+});
 
-module.exports = {
-  connectToServer: function (callback) {
-    client.connect(function (err, db) {
-      if (err || !db) {
-        return callback(err);
-      }
-
-      dbConnection = db.db('whisperwind-db');
-      console.log('Successfully connected to MongoDB.');
-
-      return callback();
-    });
-  },
-
-  getDb: function () {
-    return dbConnection;
-  },
-
-  ObjectId: ObjectId
-};
+module.exports = connection;

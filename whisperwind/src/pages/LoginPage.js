@@ -27,12 +27,11 @@ const LoginPage = () => {
       alert('Login failed. Please check your username and password.');
     }
   };
-
+  
   const handleGoogleSuccess = async (response) => {
     try {
-      const res = await axios.get('https://capstone-project-whisper-wind.vercel.app/api/users/google-login', {
-        params: { token: response.credential },
-        withCredentials: true
+      const res = await axios.post('https://capstone-project-whisper-wind.vercel.app/api/users/google-login', {
+        token: response.credential
       });
       login(res.data.token);
       setIsLoggedIn(true);
@@ -49,9 +48,8 @@ const LoginPage = () => {
       return;
     }
     try {
-      const res = await axios.get('https://capstone-project-whisper-wind.vercel.app/api/users/facebook-login', {
-        params: { token: response.authResponse.accessToken },
-        withCredentials: true
+      const res = await axios.post('https://capstone-project-whisper-wind.vercel.app/api/users/facebook-login', {
+        token: response.authResponse.accessToken
       });
       login(res.data.token);
       setIsLoggedIn(true);

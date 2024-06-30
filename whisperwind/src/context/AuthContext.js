@@ -14,7 +14,7 @@ export const AuthProvider = ({ children }) => {
     if (token) {
       axios.get('https://capstone-project-whisper-wind.vercel.app/api/users/me', {
         headers: {
-          Authorization: token
+          Authorization: `Bearer ${token}`
         }
       }).then(response => {
         setUser(response.data);
@@ -31,7 +31,7 @@ export const AuthProvider = ({ children }) => {
     try {
       const response = await axios.get('https://capstone-project-whisper-wind.vercel.app/api/users/me', {
         headers: {
-          Authorization: token
+          Authorization: `Bearer ${token}`
         }
       });
       setUser(response.data);
@@ -56,9 +56,9 @@ export const AuthProvider = ({ children }) => {
   const logout = async () => {
     const token = localStorage.getItem('token');
     try {
-      await axios.get('https://capstone-project-whisper-wind.vercel.app/api/users/logout', {}, {
+      await axios.get('https://capstone-project-whisper-wind.vercel.app/api/users/logout', {
         headers: {
-          Authorization: token
+          Authorization: `Bearer ${token}`
         }
       });
       localStorage.removeItem('token');

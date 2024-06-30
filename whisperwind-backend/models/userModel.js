@@ -1,21 +1,21 @@
-const db = require('../config/db');
+// whisperwind-backend/models/userModel.js
+const { getDb, ObjectId } = require('../config/db');
 
-exports.createUser = ({ username, password, email }, callback) => {
-  const query = 'INSERT INTO users (username, password, email) VALUES (?, ?, ?)';
-  db.query(query, [username, password, email], (err, result) => {
-    if (err) {
-      return callback(err);
-    }
-    callback(null, result);
-  });
+const userSchema = {
+  username: { type: String, required: true, unique: true },
+  password: { type: String, required: true },
+  email: { type: String, required: true, unique: true },
+  avatar: { type: String },
+  preferences: { type: Object },
+  created_at: { type: Date, default: Date.now },
 };
 
-exports.findUserByUsername = (username, callback) => {
-  const query = 'SELECT * FROM users WHERE username = ?';
-  db.query(query, [username], (err, results) => {
-    if (err) {
-      return callback(err);
-    }
-    callback(null, results[0]);
-  });
+const getUserCollection = () => {
+  const db = getDb();
+  return db.collection('users');
+};
+
+module.exports = {
+  userSchema,
+  getUserCollection
 };

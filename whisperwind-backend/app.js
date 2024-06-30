@@ -1,3 +1,4 @@
+// whisperwind-backend/app.js
 const express = require('express');
 const path = require('path');
 const cors = require('cors');
@@ -38,10 +39,8 @@ app.listen(port, () => {
 });
 
 const db = require('./config/db');
-db.getConnection()
-  .then(() => {
-    console.log('Connected to database.');
-  })
-  .catch(err => {
-    console.error('Error connecting to the database:', err.stack);
-  });
+db.connectToServer((err) => {
+  if (err) {
+    console.error('Error connecting to database:', err.stack);
+  }
+});

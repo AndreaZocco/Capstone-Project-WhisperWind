@@ -1,3 +1,4 @@
+// whisperwind-backend/config/db.js
 const { MongoClient, ObjectId } = require('mongodb');
 require('dotenv').config();
 
@@ -12,7 +13,7 @@ module.exports = {
         return callback(err);
       }
 
-      dbConnection = db.db('myFirstDatabase');
+      dbConnection = db.db('whisperwind-db');
       console.log('Successfully connected to MongoDB.');
 
       return callback();

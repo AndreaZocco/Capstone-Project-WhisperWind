@@ -55,12 +55,11 @@ const RegisterPage = () => {
     formData.append('preferences', preferences.join(','));
 
     try {
-      const response = await axios.post('https://capstone-project-whisper-wind.vercel.app/api/users/register', formData, {
+      const response = await axios.get('https://capstone-project-whisper-wind.vercel.app/api/users/register', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
       });
-      console.log('Registration response:', response.data);
       register(response.data.token, response.data.user);
       toast.success('Registered successfully! You are now logged in.');
       navigate('/profile');

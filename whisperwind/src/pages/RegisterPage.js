@@ -53,7 +53,7 @@ const RegisterPage = () => {
     formData.append('email', email);
     formData.append('avatar', avatar);
     formData.append('preferences', preferences.join(','));
-  
+
     try {
       const response = await axios.post('https://capstone-project-whisper-wind.vercel.app/api/users/register', formData, {
         headers: {
@@ -68,7 +68,6 @@ const RegisterPage = () => {
       toast.error('Registration failed. Please try again.');
     }
   };
-  
 
   return (
     <div className="form-container">

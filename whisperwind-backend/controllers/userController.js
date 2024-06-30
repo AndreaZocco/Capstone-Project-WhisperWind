@@ -1,5 +1,5 @@
 const axios = require('axios');
-const { SignJWT, jwtVerify } = require('jose');
+const jwt = require('jose');
 const { OAuth2Client } = require('google-auth-library');
 const connection = require('../config/db');
 const bcrypt = require('bcrypt');
@@ -37,10 +37,7 @@ exports.googleLogin = async (req, res) => {
       user = { id: result.insertId, username: name, email, avatar: picture };
     }
 
-    const accessToken = await new SignJWT({ userId: user.id })
-      .setProtectedHeader({ alg: 'HS256' })
-      .setExpirationTime('1h')
-      .sign(Buffer.from(process.env.JWT_SECRET));
+    const accessToken = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
     res.json({ token: accessToken });
   } catch (error) {
@@ -64,10 +61,7 @@ exports.facebookLogin = async (req, res) => {
       user = { id: result.insertId, username: name, email, avatar: picture.data.url };
     }
 
-    const accessToken = await new SignJWT({ userId: user.id })
-      .setProtectedHeader({ alg: 'HS256' })
-      .setExpirationTime('1h')
-      .sign(Buffer.from(process.env.JWT_SECRET));
+    const accessToken = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
     res.json({ token: accessToken });
   } catch (error) {
@@ -85,10 +79,7 @@ exports.registerUser = async (req, res) => {
     const [result] = await connection.query(query, [username, hashedPassword, email, avatar, preferences]);
 
     const user = { id: result.insertId, username, email, avatar, preferences };
-    const token = await new SignJWT({ userId: user.id })
-      .setProtectedHeader({ alg: 'HS256' })
-      .setExpirationTime('1h')
-      .sign(Buffer.from(process.env.JWT_SECRET));
+    const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
     console.log('User registered:', user);
     res.status(200).json({ token, user: { username: user.username, email: user.email, created_at: new Date(), avatar, preferences } });
   } catch (error) {
@@ -109,10 +100,7 @@ exports.loginUser = async (req, res) => {
     if (!passwordMatch) {
       return res.status(401).json({ error: 'Invalid username or password' });
     }
-    const token = await new SignJWT({ userId: user.id })
-      .setProtectedHeader({ alg: 'HS256' })
-      .setExpirationTime('1h')
-      .sign(Buffer.from(process.env.JWT_SECRET));
+    const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
     console.log('User logged in:', user);
     res.status(200).json({ token });
   } catch (error) {

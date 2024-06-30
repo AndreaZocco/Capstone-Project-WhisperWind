@@ -4,7 +4,19 @@ const { OAuth2Client } = require('google-auth-library');
 const bcrypt = require('bcrypt');
 const multer = require('multer');
 const path = require('path');
-const mongoUtil = require('../config/db');
+const { MongoClient, ObjectId } = require('mongodb');
+require('dotenv').config();
+
+const client = new MongoClient(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true });
+
+let db;
+client.connect(err => {
+  if (err) {
+    console.error('Error connecting to MongoDB:', err);
+    process.exit(1);
+  }
+  db = client.db();
+});
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -16,6 +28,7 @@ const storage = multer.diskStorage({
 });
 
 const upload = multer({ storage });
+
 const googleClient = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
 exports.googleLogin = async (req, res) => {
@@ -28,7 +41,6 @@ exports.googleLogin = async (req, res) => {
     });
     const { name, email, picture } = ticket.getPayload();
 
-    const db = mongoUtil.getDb();
     let user = await db.collection('users').findOne({ email });
     if (!user) {
       const result = await db.collection('users').insertOne({
@@ -56,7 +68,6 @@ exports.facebookLogin = async (req, res) => {
     const response = await axios.get(`https://graph.facebook.com/me?access_token=${token}&fields=name,email,picture`);
     const { name, email, picture } = response.data;
 
-    const db = mongoUtil.getDb();
     let user = await db.collection('users').findOne({ email });
     if (!user) {
       const result = await db.collection('users').insertOne({
@@ -82,7 +93,6 @@ exports.registerUser = async (req, res) => {
   const avatar = req.file ? `/uploads/avatars/${req.file.filename}` : null;
   try {
     const hashedPassword = await bcrypt.hash(password, 10);
-    const db = mongoUtil.getDb();
     const result = await db.collection('users').insertOne({
       username,
       password: hashedPassword,
@@ -105,7 +115,6 @@ exports.registerUser = async (req, res) => {
 exports.loginUser = async (req, res) => {
   const { username, password } = req.body;
   try {
-    const db = mongoUtil.getDb();
     const user = await db.collection('users').findOne({ username });
     if (!user) {
       return res.status(401).json({ error: 'Invalid username or password' });
@@ -127,8 +136,7 @@ exports.getUserProfile = async (req, res) => {
   try {
     const userId = req.user.userId;
     console.log("Fetching profile for user ID:", userId);
-    const db = mongoUtil.getDb();
-    const user = await db.collection('users').findOne({ _id: new mongoUtil.ObjectId(userId) });
+    const user = await db.collection('users').findOne({ _id: new ObjectId(userId) });
     if (!user) {
       console.log("User not found for ID:", userId);
       return res.status(404).json({ message: 'User not found' });
@@ -147,12 +155,11 @@ exports.updateUserProfile = async (req, res) => {
   const avatar = req.file ? `/uploads/avatars/${req.file.filename}` : null;
 
   try {
-    const db = mongoUtil.getDb();
     const update = {
       ...(preferences && { preferences }),
       ...(avatar && { avatar })
     };
-    await db.collection('users').updateOne({ _id: new mongoUtil.ObjectId(userId) }, { $set: update });
+    await db.collection('users').updateOne({ _id: new ObjectId(userId) }, { $set: update });
     res.status(200).json({ message: 'Profile updated successfully', avatar, preferences });
   } catch (error) {
     console.error('Error updating profile:', error);

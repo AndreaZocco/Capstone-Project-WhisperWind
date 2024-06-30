@@ -1,4 +1,4 @@
-const { MongoClient } = require('mongodb');
+const { MongoClient, ObjectId } = require('mongodb');
 require('dotenv').config();
 
 const client = new MongoClient(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true });
@@ -22,4 +22,6 @@ module.exports = {
   getDb: function () {
     return dbConnection;
   },
+
+  ObjectId: ObjectId
 };

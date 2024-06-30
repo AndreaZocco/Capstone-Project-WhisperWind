@@ -2,7 +2,6 @@ const express = require('express');
 const path = require('path');
 const cors = require('cors');
 const userRoutes = require('./routes/userRoutes');
-const mongoUtil = require('./config/db');
 const app = express();
 
 const allowedOrigins = [
@@ -34,13 +33,15 @@ app.get('*', (req, res) => {
 
 const port = process.env.PORT || 5000;
 
-mongoUtil.connectToServer((err) => {
-  if (err) {
-    console.error(err);
-    process.exit();
-  }
-
-  app.listen(port, () => {
-    console.log(`Server running on port ${port}`);
-  });
+app.listen(port, () => {
+  console.log(`Server running on port ${port}`);
 });
+
+const db = require('./config/db');
+db.getConnection()
+  .then(() => {
+    console.log('Connected to database.');
+  })
+  .catch(err => {
+    console.error('Error connecting to the database:', err.stack);
+  });

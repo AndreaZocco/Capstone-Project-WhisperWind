@@ -13,11 +13,15 @@ const Profile = () => {
   useEffect(() => {
     const fetchProfileData = async () => {
       const token = localStorage.getItem('token');
+      if (!token) {
+        console.error('No token found in localStorage');
+        return;
+      }
       console.log("Fetching profile data with token:", token);
       try {
         const response = await axios.get('https://capstone-project-whisper-wind.vercel.app/api/users/me', {
           headers: {
-            'Authorization': token
+            'Authorization': `Bearer ${token}`
           }
         });
         console.log("Profile data fetched:", response.data);
@@ -42,12 +46,16 @@ const Profile = () => {
     formData.append('avatar', avatar);
 
     const token = localStorage.getItem('token');
+    if (!token) {
+      console.error('No token found in localStorage');
+      return;
+    }
     try {
       setLoading(true);
       const response = await axios.post('https://capstone-project-whisper-wind.vercel.app/api/users/me', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
-          'Authorization': token
+          'Authorization': `Bearer ${token}`
         }
       });
       updateAvatar(response.data.avatar);

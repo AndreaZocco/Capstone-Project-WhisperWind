@@ -1,13 +1,13 @@
-// functions/app.js
 const express = require('express');
 const path = require('path');
 const cors = require('cors');
 const userRoutes = require('./routes/userRoutes');
-const db = require('./config/db');
+const serverless = require('serverless-http');
+
 const app = express();
 
 const allowedOrigins = [
- 'https://whisperwind1.netlify.app'
+  'https://whisperwind1.netlify.app'
 ];
 
 const corsOptions = {
@@ -27,10 +27,10 @@ app.use(express.json());
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use('/api/users', userRoutes);
 
-app.use(express.static(path.join(__dirname, 'build')));
+app.use(express.static(path.join(__dirname, '../whisperwind/build')));
 
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'build', 'index.html'));
+  res.sendFile(path.join(__dirname, '../whisperwind/build', 'index.html'));
 });
 
 const port = process.env.PORT || 5000;
@@ -39,8 +39,4 @@ app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });
 
-db.connectToServer((err) => {
-  if (err) {
-    console.error('Error connecting to database:', err.stack);
-  }
-});
+module.exports.handler = serverless(app);

@@ -19,7 +19,7 @@ const Profile = () => {
       }
       console.log("Fetching profile data with token:", token);
       try {
-        const response = await axios.get('https://capstone-project-whisper-wind.vercel.app/api/users/me', {
+        const response = await axios.get('https://whisperwind1.netlify.app/api/users/me', {
           headers: {
             'Authorization': `Bearer ${token}`
           }
@@ -52,7 +52,7 @@ const Profile = () => {
     }
     try {
       setLoading(true);
-      const response = await axios.post('https://capstone-project-whisper-wind.vercel.app/api/users/me', formData, {
+      const response = await axios.post('https://whisperwind1.netlify.app/api/users/me', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
           'Authorization': `Bearer ${token}`
@@ -76,7 +76,7 @@ const Profile = () => {
       <h2>User Profile</h2>
       <div className="profile-details">
         <img
-          src={profileData.avatar ? `https://capstone-project-whisper-wind.vercel.app${profileData.avatar}` : placeholderAvatar}
+          src={profileData.avatar ? `https://whisperwind1.netlify.app${profileData.avatar}` : placeholderAvatar}
           alt="Avatar"
           className="profile-avatar"
         />

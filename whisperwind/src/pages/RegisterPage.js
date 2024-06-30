@@ -55,7 +55,7 @@ const RegisterPage = () => {
     formData.append('preferences', preferences.join(','));
 
     try {
-      const response = await axios.post('https://capstone-project-whisper-wind.vercel.app/api/users/register', formData, {
+      const response = await axios.post('https://whisperwind1.netlify.app/api/users/register', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },

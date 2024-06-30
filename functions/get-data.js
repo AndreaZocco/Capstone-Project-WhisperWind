@@ -1,25 +1,31 @@
-// functions/get-users.js
-
-const { MongoClient } = require('mongodb');
-const uri = process.env.MONGODB_URI;
+const mysql = require('mysql2/promise');
+require('dotenv').config();
 
 exports.handler = async function (event, context) {
-  const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+  const connection = await mysql.createConnection({
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME,
+    port: process.env.DB_PORT,
+    ssl: {
+      rejectUnauthorized: false
+    }
+  });
+
   try {
-    await client.connect();
-    const database = client.db('whisperwind-db'); 
-    const collection = database.collection('users');
-    const data = await collection.find({}).toArray();
+    const [rows, fields] = await connection.execute('SELECT * FROM users');
     return {
       statusCode: 200,
-      body: JSON.stringify(data),
+      body: JSON.stringify(rows),
     };
   } catch (error) {
+    console.error('Failed to fetch data:', error);
     return {
       statusCode: 500,
       body: JSON.stringify({ error: 'Failed to fetch data' }),
     };
   } finally {
-    await client.close();
+    await connection.end();
   }
 };

@@ -1,17 +1,14 @@
 const axios = require('axios');
-const jwt = require('jsonwebtoken');
 const { OAuth2Client } = require('google-auth-library');
 const connection = require('../config/db');
 const bcrypt = require('bcrypt');
 const multer = require('multer');
 const path = require('path');
-const os = require('os'); // Importa il modulo os
-
-const tempDir = os.tmpdir(); // Ottieni la directory temporanea del sistema
+const { SignJWT, jwtVerify } = require('jose'); // Importa jose
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, tempDir); // Usa la directory temporanea del sistema
+    cb(null, 'uploads/avatars/');
   },
   filename: (req, file, cb) => {
     cb(null, `${Date.now()}-${path.extname(file.originalname)}`);
@@ -21,6 +18,21 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 const googleClient = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
+
+// Helper function to generate a JWT
+const generateToken = async (userId) => {
+  return new SignJWT({ userId })
+    .setProtectedHeader({ alg: 'HS256' })
+    .setIssuedAt()
+    .setExpirationTime('1h')
+    .sign(new TextEncoder().encode(process.env.JWT_SECRET));
+};
+
+// Helper function to verify a JWT
+const verifyToken = async (token) => {
+  const { payload } = await jwtVerify(token, new TextEncoder().encode(process.env.JWT_SECRET));
+  return payload;
+};
 
 exports.googleLogin = async (req, res) => {
   const { token } = req.body;
@@ -40,7 +52,7 @@ exports.googleLogin = async (req, res) => {
       user = { id: result.insertId, username: name, email, avatar: picture };
     }
 
-    const accessToken = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+    const accessToken = await generateToken(user.id);
 
     res.json({ token: accessToken });
   } catch (error) {
@@ -64,7 +76,7 @@ exports.facebookLogin = async (req, res) => {
       user = { id: result.insertId, username: name, email, avatar: picture.data.url };
     }
 
-    const accessToken = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+    const accessToken = await generateToken(user.id);
 
     res.json({ token: accessToken });
   } catch (error) {
@@ -82,7 +94,7 @@ exports.registerUser = async (req, res) => {
     const [result] = await connection.query(query, [username, hashedPassword, email, avatar, preferences]);
 
     const user = { id: result.insertId, username, email, avatar, preferences };
-    const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+    const token = await generateToken(user.id);
     console.log('User registered:', user);
     res.status(200).json({ token, user: { username: user.username, email: user.email, created_at: new Date(), avatar, preferences } });
   } catch (error) {
@@ -103,7 +115,7 @@ exports.loginUser = async (req, res) => {
     if (!passwordMatch) {
       return res.status(401).json({ error: 'Invalid username or password' });
     }
-    const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+    const token = await generateToken(user.id);
     console.log('User logged in:', user);
     res.status(200).json({ token });
   } catch (error) {

@@ -1,10 +1,10 @@
 const axios = require('axios');
 const jwt = require('jsonwebtoken');
 const { OAuth2Client } = require('google-auth-library');
-const connection = require('../config/db');
 const bcrypt = require('bcrypt');
 const multer = require('multer');
 const path = require('path');
+const mongoUtil = require('../config/db');
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -16,7 +16,6 @@ const storage = multer.diskStorage({
 });
 
 const upload = multer({ storage });
-
 const googleClient = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
 exports.googleLogin = async (req, res) => {
@@ -29,12 +28,16 @@ exports.googleLogin = async (req, res) => {
     });
     const { name, email, picture } = ticket.getPayload();
 
-    let [rows] = await connection.query('SELECT * FROM users WHERE email = ?', [email]);
-    let user = rows[0];
+    const db = mongoUtil.getDb();
+    let user = await db.collection('users').findOne({ email });
     if (!user) {
-      const query = 'INSERT INTO users (username, email, avatar, created_at) VALUES (?, ?, ?, NOW())';
-      const [result] = await connection.query(query, [name, email, picture]);
-      user = { id: result.insertId, username: name, email, avatar: picture };
+      const result = await db.collection('users').insertOne({
+        username: name,
+        email: email,
+        avatar: picture,
+        created_at: new Date(),
+      });
+      user = { id: result.insertedId, username: name, email, avatar: picture };
     }
 
     const accessToken = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
@@ -53,12 +56,16 @@ exports.facebookLogin = async (req, res) => {
     const response = await axios.get(`https://graph.facebook.com/me?access_token=${token}&fields=name,email,picture`);
     const { name, email, picture } = response.data;
 
-    let [rows] = await connection.query('SELECT * FROM users WHERE email = ?', [email]);
-    let user = rows[0];
+    const db = mongoUtil.getDb();
+    let user = await db.collection('users').findOne({ email });
     if (!user) {
-      const query = 'INSERT INTO users (username, email, avatar, created_at) VALUES (?, ?, ?, NOW())';
-      const [result] = await connection.query(query, [name, email, picture.data.url]);
-      user = { id: result.insertId, username: name, email, avatar: picture.data.url };
+      const result = await db.collection('users').insertOne({
+        username: name,
+        email: email,
+        avatar: picture.data.url,
+        created_at: new Date(),
+      });
+      user = { id: result.insertedId, username: name, email, avatar: picture.data.url };
     }
 
     const accessToken = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
@@ -75,10 +82,17 @@ exports.registerUser = async (req, res) => {
   const avatar = req.file ? `/uploads/avatars/${req.file.filename}` : null;
   try {
     const hashedPassword = await bcrypt.hash(password, 10);
-    const query = 'INSERT INTO users (username, password, email, created_at, avatar, preferences) VALUES (?, ?, ?, NOW(), ?, ?)';
-    const [result] = await connection.query(query, [username, hashedPassword, email, avatar, preferences]);
+    const db = mongoUtil.getDb();
+    const result = await db.collection('users').insertOne({
+      username,
+      password: hashedPassword,
+      email,
+      avatar,
+      preferences,
+      created_at: new Date(),
+    });
 
-    const user = { id: result.insertId, username, email, avatar, preferences };
+    const user = { id: result.insertedId, username, email, avatar, preferences };
     const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
     console.log('User registered:', user);
     res.status(200).json({ token, user: { username: user.username, email: user.email, created_at: new Date(), avatar, preferences } });
@@ -91,8 +105,8 @@ exports.registerUser = async (req, res) => {
 exports.loginUser = async (req, res) => {
   const { username, password } = req.body;
   try {
-    const [rows] = await connection.query('SELECT * FROM users WHERE username = ?', [username]);
-    const user = rows[0];
+    const db = mongoUtil.getDb();
+    const user = await db.collection('users').findOne({ username });
     if (!user) {
       return res.status(401).json({ error: 'Invalid username or password' });
     }
@@ -100,7 +114,7 @@ exports.loginUser = async (req, res) => {
     if (!passwordMatch) {
       return res.status(401).json({ error: 'Invalid username or password' });
     }
-    const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+    const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
     console.log('User logged in:', user);
     res.status(200).json({ token });
   } catch (error) {
@@ -113,8 +127,8 @@ exports.getUserProfile = async (req, res) => {
   try {
     const userId = req.user.userId;
     console.log("Fetching profile for user ID:", userId);
-    const [rows] = await connection.query('SELECT username, email, created_at, avatar, preferences FROM users WHERE id = ?', [userId]);
-    const user = rows[0];
+    const db = mongoUtil.getDb();
+    const user = await db.collection('users').findOne({ _id: new mongoUtil.ObjectId(userId) });
     if (!user) {
       console.log("User not found for ID:", userId);
       return res.status(404).json({ message: 'User not found' });
@@ -133,8 +147,12 @@ exports.updateUserProfile = async (req, res) => {
   const avatar = req.file ? `/uploads/avatars/${req.file.filename}` : null;
 
   try {
-    const query = 'UPDATE users SET preferences = ?, avatar = ? WHERE id = ?';
-    await connection.query(query, [preferences, avatar, userId]);
+    const db = mongoUtil.getDb();
+    const update = {
+      ...(preferences && { preferences }),
+      ...(avatar && { avatar })
+    };
+    await db.collection('users').updateOne({ _id: new mongoUtil.ObjectId(userId) }, { $set: update });
     res.status(200).json({ message: 'Profile updated successfully', avatar, preferences });
   } catch (error) {
     console.error('Error updating profile:', error);

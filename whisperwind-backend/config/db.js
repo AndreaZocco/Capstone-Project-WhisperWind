@@ -1,20 +1,25 @@
-const mysql = require('mysql2/promise');
-const fs = require('fs');
-const path = require('path');
+const { MongoClient } = require('mongodb');
 require('dotenv').config();
 
-const connection = mysql.createPool({
-  host: process.env.DB_HOST,
-  port: process.env.DB_PORT,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_NAME,
-  waitForConnections: true,
-  connectionLimit: 10,
-  queueLimit: 0,
-  ssl: {
-    ca: fs.readFileSync(path.resolve(__dirname, 'ca-cert.pem'))
-  }
-});
+const client = new MongoClient(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true });
 
-module.exports = connection;
+let dbConnection;
+
+module.exports = {
+  connectToServer: function (callback) {
+    client.connect(function (err, db) {
+      if (err || !db) {
+        return callback(err);
+      }
+
+      dbConnection = db.db('myFirstDatabase');
+      console.log('Successfully connected to MongoDB.');
+
+      return callback();
+    });
+  },
+
+  getDb: function () {
+    return dbConnection;
+  },
+};

@@ -22,25 +22,25 @@ const Footer = () => {
       </div>
       <div className="FooterSections">
         <div>
-          <a href="#">Audiodescrizione</a>
-          <a href="#">Rapporti con gli investitori</a>
-          <a href="#">Note legali</a>
-          <a href="#">Preferenze per la pubblicità</a>
+          <button onClick={() => window.location.href = "#"}>Audiodescrizione</button>
+          <button onClick={() => window.location.href = "#"}>Rapporti con gli investitori</button>
+          <button onClick={() => window.location.href = "#"}>Note legali</button>
+          <button onClick={() => window.location.href = "#"}>Preferenze per la pubblicità</button>
         </div>
         <div>
-          <a href="#">Centro assistenza</a>
-          <a href="#">Opportunità di lavoro</a>
-          <a href="#">Preferenze per i cookie</a>
+          <button onClick={() => window.location.href = "#"}>Centro assistenza</button>
+          <button onClick={() => window.location.href = "#"}>Opportunità di lavoro</button>
+          <button onClick={() => window.location.href = "#"}>Preferenze per i cookie</button>
         </div>
         <div>
-          <a href="#">Carte regalo</a>
-          <a href="#">Condizioni di utilizzo</a>
-          <a href="#">Informazioni sull'azienda</a>
+          <button onClick={() => window.location.href = "#"}>Carte regalo</button>
+          <button onClick={() => window.location.href = "#"}>Condizioni di utilizzo</button>
+          <button onClick={() => window.location.href = "#"}>Informazioni sull'azienda</button>
         </div>
         <div>
-          <a href="#">Media Center</a>
-          <a href="#">Privacy</a>
-          <a href="#">Contattaci</a>
+          <button onClick={() => window.location.href = "#"}>Media Center</button>
+          <button onClick={() => window.location.href = "#"}>Privacy</button>
+          <button onClick={() => window.location.href = "#"}>Contattaci</button>
         </div>
       </div>
       <div className="FooterBottom">

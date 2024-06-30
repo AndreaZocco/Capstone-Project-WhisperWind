@@ -1,10 +1,9 @@
 [build]
-  base = "/functions" 
-  publish = "build" 
-  command = "npm run build" 
+  command = "npm run build"
+  publish = "whisperwind/build"
 
 [functions]
-  directory = "/functions"
+  directory = "functions"
 
 [[redirects]]
   from = "/api/*"

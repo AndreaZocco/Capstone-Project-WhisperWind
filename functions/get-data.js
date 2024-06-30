@@ -1,5 +1,4 @@
 const mysql = require('mysql2/promise');
-require('dotenv').config();
 
 exports.handler = async function (event, context) {
   const connection = await mysql.createConnection({
@@ -7,9 +6,9 @@ exports.handler = async function (event, context) {
     user: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
     database: process.env.DB_NAME,
-    port: process.env.DB_PORT,
     ssl: {
-      rejectUnauthorized: false
+      rejectUnauthorized: true,
+      ca: process.env.SSL_CERT
     }
   });
 
@@ -20,7 +19,6 @@ exports.handler = async function (event, context) {
       body: JSON.stringify(rows),
     };
   } catch (error) {
-    console.error('Failed to fetch data:', error);
     return {
       statusCode: 500,
       body: JSON.stringify({ error: 'Failed to fetch data' }),

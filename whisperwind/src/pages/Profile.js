@@ -13,12 +13,14 @@ const Profile = () => {
   useEffect(() => {
     const fetchProfileData = async () => {
       const token = localStorage.getItem('token');
+      console.log("Fetching profile data with token:", token);
       try {
         const response = await axios.get('https://capstone-project-whisper-wind.vercel.app/api/users/me', {
           headers: {
             'Authorization': token
           }
         });
+        console.log("Profile data fetched:", response.data);
         setProfileData(response.data);
       } catch (error) {
         console.error('Error fetching profile data:', error);
@@ -42,7 +44,7 @@ const Profile = () => {
     const token = localStorage.getItem('token');
     try {
       setLoading(true);
-      const response = await axios.get('https://capstone-project-whisper-wind.vercel.app/api/users/me', formData, {
+      const response = await axios.post('https://capstone-project-whisper-wind.vercel.app/api/users/me', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
           'Authorization': token
@@ -50,6 +52,7 @@ const Profile = () => {
       });
       updateAvatar(response.data.avatar);
       setLoading(false);
+      console.log("Profile updated:", response.data);
     } catch (error) {
       console.error('Error updating profile:', error);
       setLoading(false);

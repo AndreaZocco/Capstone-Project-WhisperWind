@@ -116,8 +116,10 @@ exports.getUserProfile = async (req, res) => {
     const [rows] = await connection.query('SELECT username, email, created_at, avatar, preferences FROM users WHERE id = ?', [userId]);
     const user = rows[0];
     if (!user) {
+      console.log("User not found for ID:", userId);
       return res.status(404).json({ message: 'User not found' });
     }
+    console.log("User profile found:", user);
     res.json(user);
   } catch (error) {
     console.error('Error fetching user profile:', error);

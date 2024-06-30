@@ -9,15 +9,18 @@ const authenticateToken = (req, res, next) => {
   console.log("Token:", token);
 
   if (!token) {
+    console.log("No token provided");
     return res.status(401).json({ message: 'Access denied. No token provided.' });
   }
 
   if (blacklistedTokens.includes(token)) {
+    console.log("Token is blacklisted");
     return res.status(403).json({ message: 'Invalid token.' });
   }
 
   jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
     if (err) {
+      console.log("Invalid token");
       return res.status(403).json({ message: 'Invalid token.' });
     }
 

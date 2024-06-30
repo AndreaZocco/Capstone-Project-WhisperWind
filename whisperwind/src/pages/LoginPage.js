@@ -15,7 +15,7 @@ const LoginPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('https://whisperwind1.netlify.app/api/users/login', {
+      const response = await axios.post('https://whisperwind1.netlify.app/.netlify/functions/api/users/login', {
         params: { username, password },
         withCredentials: true
       });

@@ -1,9 +1,9 @@
-const { jwtVerify } = require('jose');
+const jwt = require('jsonwebtoken');
 require('dotenv').config();
 
 let blacklistedTokens = [];
 
-const authenticateToken = async (req, res, next) => {
+const authenticateToken = (req, res, next) => {
   const token = req.headers['authorization'];
 
   console.log("Token:", token);
@@ -16,14 +16,15 @@ const authenticateToken = async (req, res, next) => {
     return res.status(403).json({ message: 'Invalid token.' });
   }
 
-  try {
-    const { payload } = await jwtVerify(token, Buffer.from(process.env.JWT_SECRET));
-    req.user = payload;
-    console.log("Authenticated user:", payload);
+  jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
+    if (err) {
+      return res.status(403).json({ message: 'Invalid token.' });
+    }
+
+    req.user = user;
+    console.log("Authenticated user:", user);
     next();
-  } catch (err) {
-    return res.status(403).json({ message: 'Invalid token.' });
-  }
+  });
 };
 
 const logout = (req, res) => {

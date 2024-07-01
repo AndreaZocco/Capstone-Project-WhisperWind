@@ -1,30 +1,30 @@
-const mysql = require("mysql2/promise");
+const express = require('express');
+const path = require('path');
+const cors = require('cors');
+const userRoutes = require('./userRoutes'); 
+const serverless = require('serverless-http');
 
-const dbConfig = {
-  host: process.env.DB_HOST,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_NAME,
+const app = express();
+
+const allowedOrigins = [
+  'https://whisperwind1.netlify.app'
+];
+
+const corsOptions = {
+  origin: function (origin, callback) {
+    if (allowedOrigins.includes(origin) || !origin) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true,
 };
 
-const handler = async (event) => {
-  try {
-    const connection = await mysql.createConnection(dbConfig);
+app.use(cors(corsOptions));
+app.use(express.json());
 
-    const [rows] = await connection.execute("SELECT * FROM users");
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+app.use('/api/users', userRoutes);
 
-    await connection.end();
-
-    return {
-      statusCode: 200,
-      body: JSON.stringify({ users: rows }),
-    };
-  } catch (error) {
-    return {
-      statusCode: 500,
-      body: JSON.stringify({ error: error.message }),
-    };
-  }
-};
-
-module.exports = { handler };
+module.exports.handler = serverless(app);

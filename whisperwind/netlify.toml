@@ -1,0 +1,7 @@
+[build]
+  functions = "whisperwind-backend/functions"
+
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/:splat"
+  status = 200

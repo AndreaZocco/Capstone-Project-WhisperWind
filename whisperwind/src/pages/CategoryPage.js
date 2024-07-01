@@ -20,6 +20,27 @@ import typingImage from '../assets/Cards/Typing.webp';
 import mouthSoundsImage from '../assets/Cards/MouthSounds.webp';
 import hairCuttingImage from '../assets/Cards/HairCutting.webp';
 
+const categoryImages = {
+  'Relaxing Waves': relaxingWavesImage,
+  'Gentle Rain': gentleRainImage,
+  'Forest Sounds': forestSoundsImage,
+  'Mountain Stream': mountainStreamImage,
+  'Bird Chirping': birdChirpingImage,
+  'Ocean Breeze': oceanBreezeImage,
+  'Thunderstorm': thunderStormImage,
+  'Night Sounds': nightSoundsImage,
+  'River Flow': riverFlowImage,
+  'Wind Blowing': windBlowingImage,
+  'Crackling Fire': cracklingFireImage,
+  'Soft Piano': softPianoImage,
+  'Tapping': tappingImage,
+  'Whispering': whisperingImage,
+  'Brushing': brushingImage,
+  'Typing': typingImage,
+  'Mouth Sounds': mouthSoundsImage,
+  'Hair Cutting': hairCuttingImage,
+};
+
 const CategoryPage = () => {
   const { categoryName } = useParams();
   const [loading, setLoading] = useState(true);

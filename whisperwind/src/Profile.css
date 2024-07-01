@@ -64,7 +64,7 @@
   cursor: pointer;
 }
 
-.profile-details button:hover {
+.profile-details button:hover { 
   background-color: #0056b3;
 }
 

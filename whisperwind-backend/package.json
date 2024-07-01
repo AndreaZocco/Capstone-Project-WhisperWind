@@ -3,17 +3,16 @@
     "version": "0.1.0",
     "private": true,
     "dependencies": {
-      "express": "^4.17.1",
-      "cors": "^2.8.5",
-      "dotenv": "^10.0.0",
-      "serverless-http": "^2.7.0",
-      "mysql": "^2.18.1", 
-      "jsonwebtoken": "^8.5.1" 
+        "cors": "^2.8.5",
+        "dotenv": "^10.0.0",
+        "express": "^4.19.2",
+        "jsonwebtoken": "^8.5.1",
+        "mysql": "^2.18.1",
+        "serverless-http": "^2.7.0"
     },
     "scripts": {
-      "start": "node index.js",
-      "build": "echo 'No build script for backend'",
-      "test": "echo 'No test script specified'"
+        "start": "node index.js",
+        "build": "echo 'No build script for backend'",
+        "test": "echo 'No test script specified'"
     }
-  }
-  
+}

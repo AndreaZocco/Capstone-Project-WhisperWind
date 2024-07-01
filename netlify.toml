@@ -1,5 +1,5 @@
 [build]
-  base = "whisperwind-backend"
+  base = "/whisperwind-backend"
   publish = "build"
   command = "npm run build"
 

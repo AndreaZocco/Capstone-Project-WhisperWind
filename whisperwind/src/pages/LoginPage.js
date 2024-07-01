@@ -1,5 +1,4 @@
 import React, { useState, useContext } from 'react';
-import axios from 'axios';
 import { AuthContext } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';
@@ -15,12 +14,19 @@ const LoginPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('/api/users/login', {
-        username,
-        password,
-        withCredentials: true
+      const response = await fetch('/api/users/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ username, password }),
+        credentials: 'include',
       });
-      login(response.data.token);
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      const data = await response.json();
+      login(data.token);
       setIsLoggedIn(true);
       navigate('/');
     } catch (error) {
@@ -31,10 +37,18 @@ const LoginPage = () => {
 
   const handleGoogleSuccess = async (response) => {
     try {
-      const res = await axios.post('/api/users/google-login', {
-        token: response.credential
+      const res = await fetch('/api/users/google-login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ token: response.credential }),
       });
-      login(res.data.token);
+      if (!res.ok) {
+        throw new Error('Network response was not ok');
+      }
+      const data = await res.json();
+      login(data.token);
       setIsLoggedIn(true);
       navigate('/');
     } catch (error) {
@@ -49,10 +63,18 @@ const LoginPage = () => {
       return;
     }
     try {
-      const res = await axios.post('/api/users/facebook-login', {
-        token: response.authResponse.accessToken
+      const res = await fetch('/api/users/facebook-login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ token: response.authResponse.accessToken }),
       });
-      login(res.data.token);
+      if (!res.ok) {
+        throw new Error('Network response was not ok');
+      }
+      const data = await res.json();
+      login(data.token);
       setIsLoggedIn(true);
       navigate('/');
     } catch (error) {

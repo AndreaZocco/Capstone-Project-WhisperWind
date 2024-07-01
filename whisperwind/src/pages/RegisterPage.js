@@ -1,5 +1,4 @@
 import React, { useState, useContext } from 'react';
-import axios from 'axios';
 import { AuthContext } from '../context/AuthContext';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
@@ -55,12 +54,18 @@ const RegisterPage = () => {
     formData.append('preferences', preferences.join(','));
 
     try {
-      const response = await axios.post('/api/users/register', formData, {
+      const response = await fetch('/api/users/register', {
+        method: 'POST',
         headers: {
-          'Content-Type': 'multipart/form-data',
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
         },
+        body: formData
       });
-      register(response.data.token, response.data.user);
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      const data = await response.json();
+      register(data.token, data.user);
       toast.success('Registered successfully! You are now logged in.');
       navigate('/profile');
     } catch (error) {

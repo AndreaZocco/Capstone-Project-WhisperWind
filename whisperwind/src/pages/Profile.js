@@ -1,11 +1,10 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { AuthContext } from '../context/AuthContext';
-import axios from 'axios';
 import '../Profile.css';
 import placeholderAvatar from '../assets/abstract-user-flat-4.svg';
 
 const Profile = () => {
-  const { updateAvatar } = useContext(AuthContext);
+  const { updateAvatar } = useContext(AuthContext); // Rimosse le variabili non utilizzate
   const [avatar, setAvatar] = useState(null);
   const [loading, setLoading] = useState(false);
   const [profileData, setProfileData] = useState(null);
@@ -19,13 +18,17 @@ const Profile = () => {
       }
       console.log("Fetching profile data with token:", token);
       try {
-        const response = await axios.get('/api/users/me', {
+        const response = await fetch('/api/users/me', {
           headers: {
             'Authorization': `Bearer ${token}`
           }
         });
-        console.log("Profile data fetched:", response.data);
-        setProfileData(response.data);
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        const data = await response.json();
+        console.log("Profile data fetched:", data);
+        setProfileData(data);
       } catch (error) {
         console.error('Error fetching profile data:', error);
       }
@@ -52,15 +55,20 @@ const Profile = () => {
     }
     try {
       setLoading(true);
-      const response = await axios.post('/api/users/me', formData, { 
+      const response = await fetch('/api/users/me', {
+        method: 'POST',
         headers: {
-          'Content-Type': 'multipart/form-data',
           'Authorization': `Bearer ${token}`
-        }
+        },
+        body: formData
       });
-      updateAvatar(response.data.avatar);
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      const data = await response.json();
+      updateAvatar(data.avatar);
       setLoading(false);
-      console.log("Profile updated:", response.data);
+      console.log("Profile updated:", data);
     } catch (error) {
       console.error('Error updating profile:', error);
       setLoading(false);
@@ -76,7 +84,7 @@ const Profile = () => {
       <h2>User Profile</h2>
       <div className="profile-details">
         <img
-          src={profileData.avatar ? profileData.avatar : placeholderAvatar}
+          src={profileData.avatar ? profileData.avatar : placeholderAvatar} // Assicurati che l'URL dell'avatar sia corretto
           alt="Avatar"
           className="profile-avatar"
         />

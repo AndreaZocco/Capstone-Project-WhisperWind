@@ -8,7 +8,8 @@ const serverless = require('serverless-http');
 const app = express();
 
 const allowedOrigins = [
-  'https://whisperwind1.netlify.app'
+  'https://whisperwind1.netlify.app',
+  'http://localhost:3000'
 ];
 
 const corsOptions = {

@@ -12,14 +12,10 @@ const LoginPage = () => {
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
-  const API_BASE_URL = process.env.NODE_ENV === 'production'
-    ? 'https://whisperwind1.netlify.app/.netlify/functions'
-    : 'http://localhost:5000';
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post(`${API_BASE_URL}/api/users/login`, {
+      const response = await axios.post('https://whisperwind1.netlify.app/.netlify/functions/api/users/login', {
         params: { username, password },
         withCredentials: true
       });
@@ -34,7 +30,7 @@ const LoginPage = () => {
 
   const handleGoogleSuccess = async (response) => {
     try {
-      const res = await axios.post(`${API_BASE_URL}/api/users/google-login`, {
+      const res = await axios.post('https://whisperwind1.netlify.app/api/users/google-login', {
         token: response.credential
       });
       login(res.data.token);
@@ -52,7 +48,7 @@ const LoginPage = () => {
       return;
     }
     try {
-      const res = await axios.post(`${API_BASE_URL}/api/users/facebook-login`, {
+      const res = await axios.post('https://whisperwind1.netlify.app/api/users/facebook-login', {
         token: response.authResponse.accessToken
       });
       login(res.data.token);

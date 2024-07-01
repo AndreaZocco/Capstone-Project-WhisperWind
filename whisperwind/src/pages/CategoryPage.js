@@ -7,7 +7,7 @@ import forestSoundsImage from '../assets/Cards/ForestSounds.webp';
 import mountainStreamImage from '../assets/Cards/MountainStream.webp';
 import birdChirpingImage from '../assets/Cards/BirdChirping.webp';
 import oceanBreezeImage from '../assets/Cards/OceanBreeze.webp';
-import thunderStormImage from '../assets/Cards/Thunderstorm.webp';
+import thunderStormImage from '../assets/Cards/Thunderstorm.webp';  //immagine tempesta
 import nightSoundsImage from '../assets/Cards/NightSounds.webp';
 import riverFlowImage from '../assets/Cards/RiverFlow.webp';
 import windBlowingImage from '../assets/Cards/WindBlowing.webp';

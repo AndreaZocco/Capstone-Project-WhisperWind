@@ -1,5 +1,5 @@
 // whisperwind-backend/models/userModel.js
-const { getDb, ObjectId } = require('../config/db');
+const { getDb, ObjectId } = require('./db');
 
 const userSchema = {
   username: { type: String, required: true, unique: true },

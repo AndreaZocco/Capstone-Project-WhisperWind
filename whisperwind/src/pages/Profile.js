@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import axios from 'axios';
 import '../Profile.css';
@@ -7,6 +7,31 @@ import placeholderAvatar from '../assets/abstract-user-flat-4.svg';
 const Profile = () => {
   const { user, setUser } = useContext(AuthContext);
   const [avatar, setAvatar] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchUserProfile = async () => {
+      const token = localStorage.getItem('token');
+      try {
+        const response = await axios.get('http://localhost:5000/api/users/me', {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+        setUser(response.data);
+        setLoading(false);
+      } catch (error) {
+        console.error('Error fetching user data:', error);
+        setLoading(false);
+      }
+    };
+
+    if (!user) {
+      fetchUserProfile();
+    } else {
+      setLoading(false);
+    }
+  }, [user, setUser]);
 
   const handleAvatarChange = (e) => {
     setAvatar(e.target.files[0]);
@@ -22,15 +47,19 @@ const Profile = () => {
       const response = await axios.post('http://localhost:5000/api/users/me', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
-          'Authorization': token
+          Authorization: `Bearer ${token}`
         }
       });
       console.log('Profile updated:', response.data);
-      setUser({ ...user, avatar: response.data.avatar });
+      setUser(response.data);
     } catch (error) {
       console.error('Error updating profile:', error);
     }
   };
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className="profile-container">

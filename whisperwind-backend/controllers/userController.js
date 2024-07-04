@@ -15,7 +15,7 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 
-exports.registerUser = async (req, res) => {
+const registerUser = async (req, res) => {
   const { username, password, email, preferences } = req.body;
   const avatar = req.file ? `/uploads/avatars/${req.file.filename}` : null;
   try {
@@ -32,7 +32,7 @@ exports.registerUser = async (req, res) => {
   }
 };
 
-exports.loginUser = async (req, res) => {
+const loginUser = async (req, res) => {
   const { username, password } = req.body;
   try {
     const [rows] = await connection.query('SELECT * FROM users WHERE username = ?', [username]);
@@ -52,10 +52,9 @@ exports.loginUser = async (req, res) => {
   }
 };
 
-exports.getUserProfile = async (req, res) => {
+const getUserProfile = async (req, res) => {
   try {
     const userId = req.user.userId;
-    console.log("Fetching profile for user ID:", userId);
     const [rows] = await connection.query('SELECT username, email, created_at, avatar, preferences FROM users WHERE id = ?', [userId]);
     const user = rows[0];
     if (!user) {
@@ -68,19 +67,34 @@ exports.getUserProfile = async (req, res) => {
   }
 };
 
-exports.updateUserProfile = async (req, res) => {
+const updateUserProfile = async (req, res) => {
   const userId = req.user.userId;
   const { preferences } = req.body;
   const avatar = req.file ? `/uploads/avatars/${req.file.filename}` : null;
 
   try {
-    const query = 'UPDATE users SET preferences = ?, avatar = ? WHERE id = ?';
-    await connection.query(query, [preferences, avatar, userId]);
-    res.status(200).json({ message: 'Profile updated successfully', avatar, preferences });
+    const query = avatar ? 
+      'UPDATE users SET preferences = ?, avatar = ? WHERE id = ?' :
+      'UPDATE users SET preferences = ? WHERE id = ?';
+    
+    const params = avatar ? [preferences, avatar, userId] : [preferences, userId];
+
+    await connection.query(query, params);
+
+    const [rows] = await connection.query('SELECT username, email, created_at, avatar, preferences FROM users WHERE id = ?', [userId]);
+    const updatedUser = rows[0];
+
+    res.status(200).json(updatedUser);
   } catch (error) {
     console.error('Error updating profile:', error);
     res.status(500).json({ error: 'An error occurred while updating the profile' });
   }
 };
 
-exports.upload = upload;
+module.exports = {
+  registerUser,
+  loginUser,
+  getUserProfile,
+  updateUserProfile,
+  upload,
+};

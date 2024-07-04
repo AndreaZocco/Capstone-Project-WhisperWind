@@ -4,9 +4,8 @@ require('dotenv').config();
 let blacklistedTokens = [];
 
 const authenticateToken = (req, res, next) => {
-  const token = req.headers['authorization'];
-
-  console.log("Token:", token);
+  const authHeader = req.headers['authorization'];
+  const token = authHeader && authHeader.split(' ')[1];
 
   if (!token) {
     return res.status(401).json({ message: 'Access denied. No token provided.' });
@@ -22,13 +21,13 @@ const authenticateToken = (req, res, next) => {
     }
 
     req.user = user;
-    console.log("Authenticated user:", user);
     next();
   });
 };
 
 const logout = (req, res) => {
-  const token = req.headers['authorization'];
+  const authHeader = req.headers['authorization'];
+  const token = authHeader && authHeader.split(' ')[1];
   blacklistedTokens.push(token);
   res.json({ message: 'Logged out successfully.' });
 };

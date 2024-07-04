@@ -1,5 +1,6 @@
 import React from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
+import { Navigation } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import '../App.css';
@@ -13,13 +14,16 @@ const CategoryRow = ({ title, items }) => {
         spaceBetween={10}
         slidesPerView={'auto'}
         loop={true}
-        navigation
+        navigation={{ nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' }}
+        modules={[Navigation]}
       >
         {items.map((item, index) => (
           <SwiperSlide key={index} style={{ width: 'auto' }}>
-            <Card title={item.title} imageUrl={item.imageUrl} />
+            <Card title={item.title} imageUrl={item.imageUrl} link={`/category/${item.title}`} />
           </SwiperSlide>
         ))}
+        <div className="swiper-button-prev"></div>
+        <div className="swiper-button-next"></div>
       </Swiper>
     </div>
   );

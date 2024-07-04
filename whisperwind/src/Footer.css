@@ -1,8 +1,8 @@
 .FooterContainer {
-  background-color: #1e1e1e;
-  color: #e0e0e0;
+  background-color: #ffffff;
+  color: #333;
   padding: 20px;
-  box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1);
   border-radius: 20px 20px 0 0;
 }
 
@@ -14,12 +14,12 @@
 }
 
 .FooterLink {
-  color: #e0e0e0;
+  color: #333;
   transition: color 0.3s;
 }
 
 .FooterLink:hover {
-  color: #b0b0b0;
+  color: #007BFF;
 }
 
 .FooterSections {
@@ -36,33 +36,33 @@
 }
 
 .FooterSections a {
-  color: #e0e0e0;
+  color: #333;
   text-decoration: none;
   transition: color 0.3s;
 }
 
 .FooterSections a:hover {
-  color: #b0b0b0;
+  color: #007BFF;
 }
 
 .FooterBottom {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-top: 1px solid #333;
+  border-top: 1px solid #ddd;
   padding-top: 10px;
 }
 
 .FooterBottom button {
   background-color: transparent;
-  border: 1px solid #e0e0e0;
-  color: #e0e0e0;
+  border: 1px solid #333;
+  color: #333;
   padding: 5px 10px;
   cursor: pointer;
   transition: background-color 0.3s, color 0.3s;
 }
 
 .FooterBottom button:hover {
-  background-color: #e0e0e0;
-  color: #1e1e1e;
+  background-color: #007BFF;
+  color: #fff;
 }

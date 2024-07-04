@@ -1,0 +1,53 @@
+/* Personalizza la navbar */
+.navbar {
+  background-color: #ffffff !important;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-brand {
+  font-weight: bold;
+  color: #007BFF !important;
+}
+
+.nav-link {
+  color: #333 !important;
+}
+
+.nav-link:hover {
+  color: #007BFF !important;
+}
+
+.dropdown-menu {
+  background-color: #ffffff !important;
+  border: 1px solid #ddd !important;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1) !important;
+}
+
+.dropdown-item {
+  color: #333 !important;
+}
+
+.dropdown-item:hover {
+  background-color: #f0f0f0 !important;
+  color: #007BFF !important;
+}
+
+.navbar-toggler {
+  border-color: #007BFF !important;
+}
+
+.navbar-toggler-icon {
+  background-image: url("data:image/svg+xml;utf8,<svg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'><path stroke='#007BFF' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/></svg>");
+}
+
+.NavIcons .NotificationIcon {
+  color: #333 !important;
+}
+
+.UserAvatar {
+  width: 40px !important;
+  height: 40px !important;
+  border-radius: 50%;
+  cursor: pointer;
+  object-fit: cover;
+}

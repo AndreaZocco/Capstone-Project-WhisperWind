@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
 import styled from '@emotion/styled';
+import { AuthContext } from '../context/AuthContext'; // Importa il contesto di autenticazione
 
 const Button = styled.button`
   background-color: #000;
@@ -13,25 +13,12 @@ const Button = styled.button`
   }
 `;
 
-const LogoutButton = ({ setIsLoggedIn }) => {
+const LogoutButton = () => {
+  const { logout } = useContext(AuthContext); // Usa il contesto di autenticazione
   const navigate = useNavigate();
 
   const handleLogout = async () => {
-    const token = localStorage.getItem('token');
-
-    try {
-      await axios.post('http://localhost:5000/api/users/logout', {}, {
-        headers: {
-          'Authorization': token
-        }
-      });
-    } catch (error) {
-      console.error('Error during logout:', error);
-    }
-
-    localStorage.removeItem('token');
-    setIsLoggedIn(false);
-
+    await logout(); // Chiama la funzione di logout dal contesto
     navigate('/login');
   };
 

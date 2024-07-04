@@ -1,134 +1,133 @@
 body {
-    margin: 0;
-    background-color: #141414;
-    color: #e0e0e0;
-    font-family: 'Helvetica Neue', Arial, sans-serif;
-  }
-  
-  form {
-    background-color: #1e1e1e;
-    padding: 30px;
-    border-radius: 15px;
-    width: 100%;
-    max-width: 400px;
-    margin: 40px auto;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
-    transition: transform 0.3s ease-in-out;
-  }
-  
-  form:hover {
-    transform: scale(1.02);
-  }
-  
-  form div {
-    margin-bottom: 20px;
-  }
-  
-  form label {
-    display: block;
-    margin-bottom: 8px;
-    color: #b0b0b0;
-    font-weight: bold;
-  }
-  
-  form input, form select {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #333;
-    border-radius: 5px;
-    box-sizing: border-box;
-    background-color: #2b2b2b;
-    color: #e0e0e0;
-    transition: border-color 0.3s;
-  }
-  
-  form input:focus, form select:focus {
-    border-color: #007BFF;
-    outline: none;
-  }
-  
-  form button {
-    width: 100%;
-    padding: 12px;
-    background-color: #007BFF;
-    border: none;
-    border-radius: 5px;
-    color: white;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.3s, transform 0.3s;
-  }
-  
-  form button:hover {
-    background-color: #5383b6;
-    transform: scale(1.05);
-  }
-  
-  .avatar-container {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-  
-  .avatar-label {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 0;
-  }
-  
-  .preferences-container {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-  
-  .preferences-selection {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-  
-  .selected-preferences {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-  }
-  
-  .preference-item {
-    background-color: #2b2b2b;
-    padding: 5px 10px;
-    border-radius: 5px;
-    display: flex;
-    align-items: center;
-    gap: 5px;
-  }
-  
-  .preference-item button {
-    background-color: #ff4d4d;
-    border: none;
-    border-radius: 50%;
-    color: white;
-    width: 20px;
-    height: 20px;
-    font-size: 12px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  h2 {
-    text-align: center;
-    color: #e0e0e0;
-    margin-bottom: 30px;
-  }
-  
-  form input[type="file"] {
-    padding: 5px;
-    color: #e0e0e0;
-    background-color: #2b2b2b;
-    border: 1px solid #333;
-    border-radius: 5px;
-  }
-  
+  margin: 0;
+  background-color: #f9f9f9;
+  color: #333;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+}
+
+form {
+  background-color: #ffffff;
+  padding: 30px;
+  border-radius: 15px;
+  width: 100%;
+  max-width: 400px;
+  margin: 40px auto;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease-in-out;
+}
+
+form:hover {
+  transform: scale(1.02);
+}
+
+form div {
+  margin-bottom: 20px;
+}
+
+form label {
+  display: block;
+  margin-bottom: 8px;
+  color: #333;
+  font-weight: bold;
+}
+
+form input, form select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  box-sizing: border-box;
+  background-color: #f0f0f0;
+  color: #333;
+  transition: border-color 0.3s;
+}
+
+form input:focus, form select:focus {
+  border-color: #007BFF;
+  outline: none;
+}
+
+form button {
+  width: 100%;
+  padding: 12px;
+  background-color: #007BFF;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.3s;
+}
+
+form button:hover {
+  background-color: #5383b6;
+  transform: scale(1.05);
+}
+
+.avatar-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.avatar-label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 0;
+}
+
+.preferences-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.preferences-selection {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.selected-preferences {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.preference-item {
+  background-color: #f0f0f0;
+  padding: 5px 10px;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.preference-item button {
+  background-color: #ff4d4d;
+  border: none;
+  border-radius: 50%;
+  color: white;
+  width: 20px;
+  height: 20px;
+  font-size: 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+h2 {
+  text-align: center;
+  color: #333;
+  margin-bottom: 30px;
+}
+
+form input[type="file"] {
+  padding: 5px;
+  color: #333;
+  background-color: #f0f0f0;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}

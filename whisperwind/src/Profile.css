@@ -2,21 +2,21 @@
   max-width: 600px;
   margin: 50px auto;
   padding: 20px;
-  background-color: #222;
+  background-color: #ffffff;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  color: #fff;
+  color: #333;
 }
 
 .profile-container h2 {
   text-align: center;
-  color: #00aaff;
+  color: #007bff;
   margin-bottom: 20px;
 }
 
 .profile-details {
   font-size: 16px;
-  color: #bbb;
+  color: #555;
 }
 
 .profile-details p {
@@ -24,7 +24,7 @@
 }
 
 .profile-details strong {
-  color: #fff;
+  color: #333;
 }
 
 .profile-container p.loading {

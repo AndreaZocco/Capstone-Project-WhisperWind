@@ -1,9 +1,13 @@
-import React, { createContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
 
-export const AuthContext = createContext();
+const AuthContext = createContext();
+
+export const useAuth = () => {
+  return useContext(AuthContext);
+};
 
 export const AuthProvider = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -14,7 +18,7 @@ export const AuthProvider = ({ children }) => {
     if (token) {
       axios.get('http://localhost:5000/api/users/me', {
         headers: {
-          Authorization: token
+          Authorization: `Bearer ${token}`
         }
       }).then(response => {
         setUser(response.data);
@@ -31,7 +35,7 @@ export const AuthProvider = ({ children }) => {
     try {
       const response = await axios.get('http://localhost:5000/api/users/me', {
         headers: {
-          Authorization: token
+          Authorization: `Bearer ${token}`
         }
       });
       setUser(response.data);
@@ -58,7 +62,7 @@ export const AuthProvider = ({ children }) => {
     try {
       await axios.post('http://localhost:5000/api/users/logout', {}, {
         headers: {
-          Authorization: token
+          Authorization: `Bearer ${token}`
         }
       });
       localStorage.removeItem('token');
@@ -71,8 +75,10 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ isLoggedIn, user, login, register, logout, setIsLoggedIn }}>
+    <AuthContext.Provider value={{ isLoggedIn, user, login, register, logout, setIsLoggedIn, setUser }}>
       {children}
     </AuthContext.Provider>
   );
 };
+
+export { AuthContext };

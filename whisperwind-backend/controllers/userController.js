@@ -3,6 +3,9 @@ const jwt = require('jsonwebtoken');
 const connection = require('../config/db');
 const multer = require('multer');
 const path = require('path');
+const { OAuth2Client } = require('google-auth-library');
+const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
+const UserModel = require('../models/userModel');
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -52,6 +55,76 @@ const loginUser = async (req, res) => {
   }
 };
 
+
+const googleLogin = async (req, res) => {
+  console.log('Attempting database connection...');
+  try {
+    await connection.query('SELECT 1');
+    console.log('Database connection successful');
+  } catch (error) {
+    console.error('Database connection failed:', error);
+    return res.status(500).json({ error: 'Database connection failed' });
+  }
+
+  const { token } = req.body;
+  console.log('Google token received:', token);
+
+  try {
+    const ticket = await client.verifyIdToken({
+      idToken: token,
+      audience: process.env.GOOGLE_CLIENT_ID,
+    });
+
+    const { sub, name, email, picture } = ticket.getPayload();
+    console.log('Google token verified:', { sub, name, email, picture });
+
+    UserModel.findUserByExternalId(sub, 'GOOGLE', async (err, user) => {
+      if (err) {
+        console.error('Error finding user by external ID:', err);
+        return res.status(500).json({ error: 'An error occurred while logging in with Google' });
+      }
+
+      console.log('User found:', user);
+
+      if (!user) {
+        console.log('User not found, attempting to create new user');
+        UserModel.createUser({ 
+          username: name, 
+          password: null, 
+          email, 
+          external_id: sub, 
+          external_type: 'GOOGLE' 
+        }, (err, result) => {
+          if (err) {
+            console.error('Detailed error creating user:', err);
+            if (err.code === 'ER_DUP_ENTRY') {
+              return res.status(409).json({ error: 'User already exists' });
+            }
+            return res.status(500).json({ error: 'Error creating user in database' });
+          }
+
+          console.log('User created successfully:', result);
+          user = { id: result.insertId, username: name, email, avatar: picture };
+          
+          const jwtToken = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+          console.log('JWT token generated for new user:', jwtToken);
+          console.log('New user logged in with Google successfully:', email);
+          return res.status(200).json({ token: jwtToken });
+        });
+      } else {
+        console.log('Existing user found, generating JWT token.');
+        const jwtToken = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+        console.log('JWT token generated for existing user:', jwtToken);
+        console.log('Existing user logged in with Google successfully:', email);
+        return res.status(200).json({ token: jwtToken });
+      }
+    });
+  } catch (error) {
+    console.error('Unhandled error during Google login:', error);
+    res.status(500).json({ error: 'An unexpected error occurred during Google login' });
+  }
+};
+
 const getUserProfile = async (req, res) => {
   try {
     const userId = req.user.userId;
@@ -94,6 +167,7 @@ const updateUserProfile = async (req, res) => {
 module.exports = {
   registerUser,
   loginUser,
+  googleLogin,
   getUserProfile,
   updateUserProfile,
   upload,

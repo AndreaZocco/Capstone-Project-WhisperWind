@@ -1,13 +1,14 @@
 import React from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import '../PrivacyPage.css';
 
 const PrivacyPage = () => {
   return (
-    <div className="privacy-container">
-      <h1>Privacy Policy</h1>
+    <div className="privacy-container container mt-5">
+      <h1 className="text-center mb-4">Privacy Policy</h1>
       <p>At WhisperWind, we respect your privacy and are committed to protecting your personal data. This privacy policy will inform you about how we look after your personal data when you visit our website (regardless of where you visit it from) and tell you about your privacy rights and how the law protects you.</p>
 
-      <h2>Information We Collect</h2>
+      <h2 className="mt-4">Information We Collect</h2>
       <p>We collect the following types of information:</p>
       <ul>
         <li><strong>Personal identification information:</strong> Name, email address, phone number, etc.</li>
@@ -16,7 +17,7 @@ const PrivacyPage = () => {
         <li><strong>Marketing and communications data:</strong> Your preferences in receiving marketing from us and your communication preferences.</li>
       </ul>
 
-      <h2>How We Use Your Information</h2>
+      <h2 className="mt-4">How We Use Your Information</h2>
       <p>We will only use your personal data when the law allows us to. Most commonly, we will use your personal data in the following circumstances:</p>
       <ul>
         <li>To manage your account and provide our services to you.</li>
@@ -25,10 +26,10 @@ const PrivacyPage = () => {
         <li>To deliver relevant website content and advertisements to you and measure or understand the effectiveness of the advertising we serve to you.</li>
       </ul>
 
-      <h2>Data Retention</h2>
+      <h2 className="mt-4">Data Retention</h2>
       <p>We will only retain your personal data for as long as necessary to fulfill the purposes we collected it for, including for the purposes of satisfying any legal, accounting, or reporting requirements.</p>
 
-      <h2>Your Legal Rights</h2>
+      <h2 className="mt-4">Your Legal Rights</h2>
       <p>Under certain circumstances, you have rights under data protection laws in relation to your personal data, including the right to:</p>
       <ul>
         <li>Request access to your personal data.</li>
@@ -40,11 +41,11 @@ const PrivacyPage = () => {
         <li>Right to withdraw consent.</li>
       </ul>
 
-      <h2>Contact Us</h2>
+      <h2 className="mt-4">Contact Us</h2>
       <p>If you have any questions about this privacy policy or our privacy practices, please contact us at:</p>
-      <p>Email: support@whisperwind.com</p>
+      <p>Email: <a href="mailto:support@whisperwind.com">support@whisperwind.com</a></p>
 
-      <h2>Data Deletion Instructions</h2>
+      <h2 className="mt-4">Data Deletion Instructions</h2>
       <p>If you wish to delete your personal data, please follow these steps:</p>
       <ul>
         <li>Send an email to <a href="mailto:support@whisperwind.com">support@whisperwind.com</a> with the subject "Data Deletion Request".</li>

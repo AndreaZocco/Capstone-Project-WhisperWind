@@ -1,5 +1,9 @@
+body {
+  font-family: 'Roboto', sans-serif !important;
+}
+
 .about-asmr-container {
-    max-width: 800px;
+    max-width: 900px;
     margin: 20px auto;
     padding: 20px;
     background-color: #fff;
@@ -11,7 +15,7 @@
     text-align: center;
     margin-bottom: 20px;
     font-size: 2em;
-    color: #333;
+    color: #d928dfe8;
   }
   
   .asmr-image {

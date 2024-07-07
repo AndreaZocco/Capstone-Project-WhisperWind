@@ -2,6 +2,7 @@ import React, { useState, useContext } from 'react';
 import axios from 'axios';
 import { AuthContext } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import GoogleLoginButton from '../components/GoogleLoginButton';
 import '../Login.css';
 
 const LoginPage = () => {
@@ -20,6 +21,21 @@ const LoginPage = () => {
     } catch (error) {
       console.error('Error during login:', error);
       alert('Login failed. Please check your username and password.');
+    }
+  };
+
+  const handleGoogleLoginSuccess = async (response) => {
+    console.log('Google login response:', response);
+    try {
+      const googleToken = response.credential;
+      const result = await axios.post('http://localhost:5000/api/users/google-login', { token: googleToken });
+      console.log('Server response:', result);
+      login(result.data.token);
+      setIsLoggedIn(true);
+      navigate('/');
+    } catch (error) {
+      console.error('Error during Google login:', error);
+      alert('Google login failed. Please try again.');
     }
   };
 
@@ -50,6 +66,9 @@ const LoginPage = () => {
           />
         </div>
         <button type="submit">Login</button>
+        <div className="google-login-container">
+          <GoogleLoginButton onLoginSuccess={handleGoogleLoginSuccess} />
+        </div>
       </form>
     </div>
   );

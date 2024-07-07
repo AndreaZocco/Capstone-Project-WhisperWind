@@ -67,13 +67,13 @@ const Profile = () => {
       {user ? (
         <div className="profile-details">
           <img
-            src={user.avatar ? `http://localhost:5000${user.avatar}` : placeholderAvatar}
+            src={user.avatar || placeholderAvatar}
             alt="Avatar"
             className="profile-avatar"
           />
           <p><strong>Username:</strong> {user.username}</p>
           <p><strong>Email:</strong> {user.email}</p>
-          <p><strong>Joined:</strong> {user.created_at}</p>
+          <p><strong>Joined:</strong> {new Date(user.created_at).toLocaleDateString()}</p>
           <p><strong>Preferences:</strong> {user.preferences || 'No preferences set'}</p>
           <form onSubmit={handleSubmit}>
             <label>

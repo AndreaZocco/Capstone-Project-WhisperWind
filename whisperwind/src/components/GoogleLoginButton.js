@@ -1,4 +1,3 @@
-// src/components/GoogleLoginButton.js
 import React from 'react';
 import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';
 
@@ -10,16 +9,17 @@ const GoogleLoginButton = ({ onLoginSuccess }) => {
     onLoginSuccess(response);
   };
 
-  const handleFailure = (response) => {
-    console.error('Google login failed:', response);
+  const handleFailure = (error) => {
+    console.error('Google login failed:', error);
+    if (error.error) console.error('Error details:', error.error);
   };
 
   return (
     <GoogleOAuthProvider clientId={clientId}>
       <GoogleLogin
         onSuccess={handleSuccess}
-        onFailure={handleFailure}
-        buttonText="Login with Google"
+        onError={handleFailure}
+        useOneTap={false} // Assicurati che useOneTap sia impostato su false
       />
     </GoogleOAuthProvider>
   );

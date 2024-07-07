@@ -1,0 +1,15 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  @apply bg-gray-100;
+}
+
+h1 {
+  @apply text-purple-600;
+}
+
+p {
+  @apply text-gray-700;
+}

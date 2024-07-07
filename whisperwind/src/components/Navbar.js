@@ -6,7 +6,7 @@ import { faHome, faSignInAlt, faUserPlus, faListAlt, faInfoCircle, faBell, faCal
 import { Navbar, Nav, NavDropdown, Container } from 'react-bootstrap';
 import placeholderAvatar from '../assets/abstract-user-flat-4.svg';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import '../Navbar.css'; 
+import '../Navbar.css';
 
 const CustomNavbar = () => {
   const { isLoggedIn, logout, user } = useContext(AuthContext);
@@ -32,6 +32,8 @@ const CustomNavbar = () => {
     <Navbar bg="light" variant="light" expand="lg" sticky="top" className="shadow-sm">
       <Container>
         <Navbar.Brand as={Link} to="/" className="d-flex align-items-center">
+          <img src={placeholderAvatar} alt="Logo" width="40" height="40" className="d-inline-block align-top me-2" />
+          Whisperwind
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">

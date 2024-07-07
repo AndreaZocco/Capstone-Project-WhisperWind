@@ -19,6 +19,8 @@ import typingImage from '../assets/Cards/Typing.webp';
 import mouthSoundsImage from '../assets/Cards/MouthSounds.webp';
 import hairCuttingImage from '../assets/Cards/HairCutting.webp';
 
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 const popularItems = [
   { title: 'Relaxing Waves', imageUrl: relaxingWavesImage },
   { title: 'Gentle Rain', imageUrl: gentleRainImage },

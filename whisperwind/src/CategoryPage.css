@@ -1,6 +1,6 @@
 .category-page {
   padding: 20px;
-  color: #007BFF;
+  color: #d928dfe8 !important;
   text-align: center;
 }
 
@@ -11,6 +11,12 @@
   border-radius: 15px;
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
   max-width: 600px;
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+.demo-item:hover {
+  transform: scale(1.05);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
 }
 
 .demo-item-image {
@@ -19,6 +25,10 @@
   border-radius: 15px;
   object-fit: cover;
   transition: transform 0.3s ease-in-out;
+}
+
+.demo-item:hover .demo-item-image {
+  transform: scale(1.1);
 }
 
 .category-items {
@@ -65,7 +75,7 @@
 }
 
 .category-item h3 {
-  color: #007BFF;
+  color: #4f2055;
   padding: 10px;
   border-radius: 8px;
   font-size: 18px;

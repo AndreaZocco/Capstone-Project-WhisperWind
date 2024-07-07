@@ -1,3 +1,8 @@
+body {
+  margin: 0;
+  font-family: 'Roboto', sans-serif !important;
+}
+
 .news-container {
   padding: 20px;
   color: #333;

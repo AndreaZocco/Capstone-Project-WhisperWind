@@ -1,17 +1,7 @@
 import React, { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import styled from '@emotion/styled';
+import Button from '@mui/material/Button'; // Assicurati di importare il componente Button
 import { AuthContext } from '../context/AuthContext'; // Importa il contesto di autenticazione
-
-const Button = styled.button`
-  background-color: #000;
-  color: #fff;
-  border: none;
-  cursor: pointer;
-  &:hover {
-    text-decoration: underline;
-  }
-`;
 
 const LogoutButton = () => {
   const { logout } = useContext(AuthContext); // Usa il contesto di autenticazione
@@ -23,7 +13,7 @@ const LogoutButton = () => {
   };
 
   return (
-    <Button onClick={handleLogout}>
+    <Button variant="contained" color="primary" onClick={handleLogout}>
       Logout
     </Button>
   );

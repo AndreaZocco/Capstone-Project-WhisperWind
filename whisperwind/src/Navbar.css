@@ -1,20 +1,25 @@
-/* Personalizza la navbar */
+body {
+  font-family: 'Roboto', sans-serif !important;
+}
+
 .navbar {
-  background-color: #ffffff !important;
+  background: linear-gradient(90deg, rgba(38, 33, 139, 0.616) 0%, rgba(45, 45, 133, 0.74) 35%, rgba(194, 70, 211, 0.753) 100%) !important;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
 }
 
 .navbar-brand {
   font-weight: bold;
-  color: #007BFF !important;
+  color: #ffffff !important;
 }
 
 .nav-link {
-  color: #333 !important;
+  color: #ffffff !important;
+  transition: color 0.3s ease-in-out;
 }
 
 .nav-link:hover {
-  color: #007BFF !important;
+  color: #ffd700 !important;
 }
 
 .dropdown-menu {
@@ -25,28 +30,29 @@
 
 .dropdown-item {
   color: #333 !important;
+  transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
 }
 
 .dropdown-item:hover {
   background-color: #f0f0f0 !important;
-  color: #007BFF !important;
+  color: #d928dfe8 !important;
 }
 
 .navbar-toggler {
-  border-color: #007BFF !important;
+  border-color: #ffffff !important;
 }
 
 .navbar-toggler-icon {
-  background-image: url("data:image/svg+xml;utf8,<svg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'><path stroke='#007BFF' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/></svg>");
+  background-image: url("data:image/svg+xml;utf8,<svg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'><path stroke='#ffffff' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/></svg>");
 }
 
 .NavIcons .NotificationIcon {
-  color: #333 !important;
+  color: #ffffff !important;
 }
 
 .UserAvatar {
-  width: 40px !important;
-  height: 40px !important;
+  width: px !important;
+  height: 45px !important;
   border-radius: 50%;
   cursor: pointer;
   object-fit: cover;

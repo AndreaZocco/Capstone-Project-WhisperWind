@@ -1,9 +1,8 @@
 body {
   margin: 0;
-  background-color: #f9f9f9;
-  color: #333;
-  font-family: 'Helvetica Neue', Arial, sans-serif;
-}
+  background-color: #ffffff !important;
+  font-family: 'Roboto', sans-serif !important;
+  }
 
 .logo {
   position: absolute;
@@ -27,6 +26,8 @@ body {
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1); 
   cursor: pointer;
   transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  display: flex;
+  flex-direction: column;
 }
 
 .card-container:hover {
@@ -39,6 +40,7 @@ body {
   height: 100%;
   object-fit: cover;
   transition: transform 0.3s ease-in-out;
+  flex: 1;
 }
 
 .card-container:hover .card-image {
@@ -49,13 +51,15 @@ body {
   position: absolute;
   bottom: 15px;
   left: 15px;
-  color: #135dac;
-  background-color: rgba(255, 255, 255, 0.8);
-  padding: 10px;
+  right: 15px;
+  color: #fff !important;
+  background-color: rgba(182, 53, 182, 0.678);
+  padding: 5px;
   border-radius: 8px;
-  font-size: 18px;
+  font-size: 18px !important;
   font-weight: bold;
-  max-width: 80%; 
+  text-align: center;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
 }
 
 .category-row-container {
@@ -67,7 +71,7 @@ body {
 }
 
 .category-title {
-  color: #007BFF;
+  color: #d928dfe8;
   margin: 0 0 20px 20px;
   font-size: 24px;
   font-weight: bold;
@@ -75,9 +79,9 @@ body {
 }
 
 .swiper-button-prev, .swiper-button-next {
-  color: #007BFF;
-  background-color: rgba(255, 255, 255, 0.8);
-  padding: 10px;
+  color: #d928dfe8 !important;
+  background-color: rgba(255, 255, 255, 0.726);
+  padding: 15px;
   border-radius: 25%;
 }
 
@@ -87,22 +91,6 @@ body {
 
 .swiper-button-next {
   right: 0;
-}
-
-.about-asmr-container {
-  max-width: 800px;
-  margin: 20px auto;
-  padding: 20px;
-  background-color: #ffffff;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.about-asmr-container h2 {
-  text-align: center;
-  margin-bottom: 20px;
-  font-size: 2em;
-  color: #333;
 }
 
 .asmr-image {

@@ -1,14 +1,14 @@
 import React, { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Button from '@mui/material/Button'; // Assicurati di importare il componente Button
-import { AuthContext } from '../context/AuthContext'; // Importa il contesto di autenticazione
+import Button from '@mui/material/Button';
+import { AuthContext } from '../context/AuthContext';
 
 const LogoutButton = () => {
-  const { logout } = useContext(AuthContext); // Usa il contesto di autenticazione
+  const { logout } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const handleLogout = async () => {
-    await logout(); // Chiama la funzione di logout dal contesto
+    await logout();
     navigate('/login');
   };
 

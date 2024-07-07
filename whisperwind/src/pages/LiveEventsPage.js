@@ -12,7 +12,7 @@ const events = [
     date: '2023-08-12',
     time: '18:00',
     description: 'Gibi (born December 19, 1994) is a member of the ASMRtist community whose relaxing and tingle-inducing roleplays and soft spoken videos have earned her more than 800,000 subscribers. She used ASMR videos for years to relax her and put her to sleep before deciding to create an ASMR channel of her own in June of 2016. She became a big fan of cosplaying, and would earn 50,000 followers on her gibiofficial Instagram account.',
-    videoUrl: '/assets/Video/Live.mp4' // Usa il percorso relativo
+    videoUrl: '/assets/Video/Live.mp4'
   },
   {
     id: 2,
@@ -21,7 +21,7 @@ const events = [
     date: '2023-08-15',
     time: '20:00',
     description: 'Jonah (born July 18, 1998), better known as Jojo\'s ASMR, is an ASMR content creator on YouTube whose relaxing and tingle-inducing videos are meant to help his 320,000 subscribers fall asleep more quickly. He is often seen doing card tricks in his videos. He launched his channel in January of 2015, but did not upload a first video until Christmas day 2016. The video was called "The Best ASMR Video Ever | Instant Tingles!" He is a piano player, as seen in several videos on his ayyjonah Instagram account.',
-    videoUrl: '/assets/Video/Live1.mp4' // Usa il percorso relativo
+    videoUrl: '/assets/Video/Live1.mp4'
   },
   {
     id: 3,
@@ -30,7 +30,7 @@ const events = [
     date: '2023-08-20',
     time: '19:30',
     description: 'Paul (born May 17, 1971), better known as Ephemeral Rift, is an ASMRtist on YouTube who began experimenting with character driven ASMR videos after getting started with more typical sound videos featuring crinkling, typing, tapping, whispering and more. His content would be watched more than 171 million times. His first videos to surpass 2 million views each were "Sleep for the Sleepless ASMR" and "60 minutes of Woodland Ambiance (Nature Sounds Series #4) Trickling Stream & Birds Sounds."',
-    videoUrl: '/assets/Video/Live2.mp4' // Usa il percorso relativo
+    videoUrl: '/assets/Video/Live2.mp4'
   },
   {
     id: 4,
@@ -39,7 +39,7 @@ const events = [
     date: '2023-08-22',
     time: '17:00',
     description: 'Sharon Dubois (born March 4, 1994) is a Makeup artist and vlogger whose beauty tutorials have earned her more than 40,000 subscribers on YouTube. She is known to fans for her tutorials inspired by celebrities like Selena Gomez and Demi Lovato. She is also an ASMR artist with a YouTube channel called ASMR GLOW.',
-    videoUrl: '/assets/Video/Live3.mp4' // Usa il percorso relativo
+    videoUrl: '/assets/Video/Live3.mp4'
   },
   {
     id: 5,
@@ -48,7 +48,7 @@ const events = [
     date: '2023-08-25',
     time: '21:00',
     description: 'Karuna Satori (born June 25, 1991) is an ASMR YouTuber with over 270,000 subscribers to her channel. She created a secondary channel called Karuna Satori BASIC, featuring her vlogs and life stories. Her husband Victor is also an ASMR artist and runs a channel called Essence of ASMR.',
-    videoUrl: '/assets/Video/Live4.mp4' // Usa il percorso relativo
+    videoUrl: '/assets/Video/Live4.mp4'
   },
   {
     id: 6,
@@ -57,7 +57,7 @@ const events = [
     date: '2023-08-28',
     time: '18:30',
     description: 'Tingting ASMR (born December 1, 1991) is a YouTube star who is widely known for her ASMR channel. She has gained popularity there for her ASMR relaxation videos. She\'s also a Twitch streamer who goes by the username tingting57. One of her most popular YouTube videos, "[ASMR] Chinese Calligraphy and Brush Sounds," has amassed more than 300,000 views.',
-    videoUrl: '/assets/Video/Live5.mp4' // Usa il percorso relativo
+    videoUrl: '/assets/Video/Live5.mp4'
   }
 ];
 
@@ -73,7 +73,7 @@ const LiveEventsPage = () => {
         const nextIndex = (currentIndex + 1) % events.length;
         return events[nextIndex].id;
       });
-    }, 600000); // 10 minutes in milliseconds
+    }, 600000);
 
     return () => clearInterval(interval);
   }, []);

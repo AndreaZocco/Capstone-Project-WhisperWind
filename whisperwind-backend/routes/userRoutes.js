@@ -6,7 +6,7 @@ const router = express.Router();
 
 router.post('/register', upload.single('avatar'), registerUser);
 router.post('/login', loginUser);
-router.post('/google-login', googleLogin); // Aggiungi la nuova rotta per il login Google
+router.post('/google-login', googleLogin);
 router.get('/me', authenticateToken, getUserProfile);
 router.post('/logout', authenticateToken, logout);
 router.put('/me', authenticateToken, upload.single('avatar'), updateUserProfile);

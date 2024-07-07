@@ -19,7 +19,7 @@ const GoogleLoginButton = ({ onLoginSuccess }) => {
       <GoogleLogin
         onSuccess={handleSuccess}
         onError={handleFailure}
-        useOneTap={false} // Assicurati che useOneTap sia impostato su false
+        useOneTap={false}
       />
     </GoogleOAuthProvider>
   );

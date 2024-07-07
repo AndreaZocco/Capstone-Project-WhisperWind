@@ -63,7 +63,7 @@ body {
   bottom: 0;
   left: 50%;
   transform: translateX(-50%);
-  background-color: rgba(177, 53, 177, 0.479); /* Viola con trasparenza */
+  background-color: rgba(177, 53, 177, 0.479);
   color: #fff;
   width: 100%;
   text-align: center;
@@ -93,7 +93,6 @@ body {
   font-weight: bold;
 }
 
-/* Stili per la flag "Live" */
 .online-flag {
   display: flex;
   align-items: center;

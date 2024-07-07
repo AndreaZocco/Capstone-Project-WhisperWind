@@ -31,8 +31,8 @@ body {
 }
 
 .chat-avatar {
-  width: 35px; /* Ridotto da 50px */
-  height: 35px; /* Ridotto da 50px */
+  width: 35px;
+  height: 35px;
   border-radius: 50%;
   margin-right: 10px;
   background-color: transparent;
@@ -41,11 +41,11 @@ body {
 .chat-message p {
   margin: 0;
   background-color: transparent;
-  font-size: 14px; /* Ridotto */
+  font-size: 14px;
 }
 
 .chat-message strong {
-  font-size: 14px; /* Ridotto */
+  font-size: 14px;
 }
 
 .chat-input-form {

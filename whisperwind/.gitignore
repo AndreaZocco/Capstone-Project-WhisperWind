@@ -21,3 +21,8 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# Exclude specific video files
+whisperwind/public/assets/Video/Live.mp4
+whisperwind/src/assets/Video/Live2.mp4
+

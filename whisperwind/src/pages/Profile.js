@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import axios from 'axios';
-import '../Profile.css';
+import '../CSS/Profile.css';
 import placeholderAvatar from '../assets/abstract-user-flat-4.svg';
 
 const Profile = () => {
@@ -19,6 +19,7 @@ const Profile = () => {
           }
         });
         setUser(response.data);
+        setAvatar(response.data.avatar);
         setLoading(false);
       } catch (error) {
         console.error('Error fetching user data:', error);
@@ -44,7 +45,7 @@ const Profile = () => {
 
     const token = localStorage.getItem('token');
     try {
-      const response = await axios.post('http://localhost:5000/api/users/me', formData, {
+      const response = await axios.put('http://localhost:5000/api/users/me', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
           Authorization: `Bearer ${token}`
@@ -67,7 +68,7 @@ const Profile = () => {
       {user ? (
         <div className="profile-details">
           <img
-            src={user.avatar || placeholderAvatar}
+            src={user.avatar ? `http://localhost:5000${user.avatar}` : placeholderAvatar}
             alt="Avatar"
             className="profile-avatar"
           />

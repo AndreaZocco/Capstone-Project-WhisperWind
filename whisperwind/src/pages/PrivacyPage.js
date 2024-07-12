@@ -1,6 +1,6 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import '../PrivacyPage.css';
+import '../CSS/PrivacyPage.css';
 
 const PrivacyPage = () => {
   return (

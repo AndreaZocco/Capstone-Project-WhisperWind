@@ -1,5 +1,5 @@
 import React from 'react';
-import '../Footer.css';
+import '../CSS/Footer.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebook, faInstagram, faTwitter, faYoutube } from '@fortawesome/free-brands-svg-icons';
 
@@ -22,29 +22,29 @@ const Footer = () => {
       </div>
       <div className="FooterSections">
         <div>
-          <a href="#">Audiodescrizione</a>
-          <a href="#">Rapporti con gli investitori</a>
-          <a href="#">Note legali</a>
-          <a href="#">Preferenze per la pubblicità</a>
+          <a href="#">Audio Description</a>
+          <a href="#">Investor Relations</a>
+          <a href="#">Legal Notices</a>
+          <a href="#">Ad Preferences</a>
         </div>
         <div>
-          <a href="#">Centro assistenza</a>
-          <a href="#">Opportunità di lavoro</a>
-          <a href="#">Preferenze per i cookie</a>
+          <a href="#">Help Center</a>
+          <a href="#">Job Opportunities</a>
+          <a href="#">Cookie Preferences</a>
         </div>
         <div>
-          <a href="#">Carte regalo</a>
-          <a href="#">Condizioni di utilizzo</a>
-          <a href="#">Informazioni sull'azienda</a>
+          <a href="#">Gift Cards</a>
+          <a href="#">Terms of Use</a>
+          <a href="#">Company Information</a>
         </div>
         <div>
           <a href="#">Media Center</a>
           <a href="#">Privacy</a>
-          <a href="#">Contattaci</a>
+          <a href="#">Contact Us</a>
         </div>
       </div>
       <div className="FooterBottom">
-        <button>Codice di servizio</button>
+        <button>Service Code</button>
         <p>© 2024 Whisperwind, Inc.</p>
       </div>
     </div>

@@ -10,6 +10,8 @@ WhisperWind is a modern web application designed to provide a soothing ASMR (Aut
 - 🔒 **User Authentication**: Secure login and registration system.
 - 🎧 **ASMR Preferences**: Users can select their favorite ASMR categories.
 - 📂 **Categorized Content**: ASMR content categorized for easy access.
+- 📅 **Live Events**: Dedicated section for live ASMR events.
+- 🔔 **Notifications**: Notification system to keep users updated on new content and events.
 
 ## Project Structure
 
@@ -26,7 +28,9 @@ The frontend is built using React and includes components for user registration,
 
 - React
 - CSS Modules
+- Bootstrap
 - Axios for API requests
+- React Router for navigation
 
 ### Backend
 
@@ -38,5 +42,8 @@ The backend is built using Node.js and Express and provides RESTful APIs for use
 - Express
 - MySQL (with Sequelize)
 - JWT for authentication
+- Online MySQL database
+
+---
 
 Thank you for using WhisperWind! We hope it brings a sense of calm and relaxation to your day. 😊

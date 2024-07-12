@@ -25,7 +25,9 @@ yarn-error.log*
 # Exclude specific video files
 whisperwind/public/assets/Video/Live.mp4
 whisperwind/src/assets/Video/Live2.mp4
-/whisperwind/public/assets/*
-/whisperwind/src/assets/Video/*
+whisperwind/public/assets/*
+whisperwind/src/assets/Video/*
+
+.vscode
 
 

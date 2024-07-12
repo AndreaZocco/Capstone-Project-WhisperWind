@@ -1,7 +1,7 @@
 
 import React from 'react';
 import asmrImage from '../assets/asmr.webp';
-import '../AboutASMR.css';
+import '../CSS/AboutASMR.css';
 
 const AboutASMR = () => {
   return (

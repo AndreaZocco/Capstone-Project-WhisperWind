@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Card, Container, Row, Col, Modal, Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
-import '../LiveEventsPage.css';
+import '../CSS/LiveEventsPage.css';
 
 const events = [
   {

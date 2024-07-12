@@ -1,8 +1,8 @@
-
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
 const userRoutes = require('./routes/userRoutes');
+const trackRoutes = require('./routes/trackRoutes');
 const app = express();
 
 const corsOptions = {
@@ -16,6 +16,7 @@ app.use(express.json());
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 app.use('/api/users', userRoutes);
+app.use('/api/tracks', trackRoutes);
 
 const port = process.env.PORT || 5000;
 

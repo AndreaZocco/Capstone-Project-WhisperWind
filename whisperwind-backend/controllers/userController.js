@@ -28,7 +28,7 @@ const registerUser = async (req, res) => {
 
     const user = { id: result.insertId, username, email, avatar, preferences };
     const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
-    res.status(200).json({ token, user: { username: user.username, email: user.email, created_at: new Date(), avatar, preferences } });
+    res.status(200).json({ token, user });
   } catch (error) {
     console.error('Error registering user:', error);
     res.status(500).json({ error: 'An error occurred while registering the user' });
@@ -40,11 +40,7 @@ const loginUser = async (req, res) => {
   try {
     const [rows] = await connection.query('SELECT * FROM users WHERE username = ?', [username]);
     const user = rows[0];
-    if (!user) {
-      return res.status(401).json({ error: 'Invalid username or password' });
-    }
-    const passwordMatch = await bcrypt.compare(password, user.password);
-    if (!passwordMatch) {
+    if (!user || !(await bcrypt.compare(password, user.password))) {
       return res.status(401).json({ error: 'Invalid username or password' });
     }
     const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
@@ -55,28 +51,21 @@ const loginUser = async (req, res) => {
   }
 };
 
-
 const googleLogin = async (req, res) => {
-  console.log('Attempting database connection...');
   try {
     await connection.query('SELECT 1');
-    console.log('Database connection successful');
   } catch (error) {
     console.error('Database connection failed:', error);
     return res.status(500).json({ error: 'Database connection failed' });
   }
 
   const { token } = req.body;
-  console.log('Google token received:', token);
-
   try {
     const ticket = await client.verifyIdToken({
       idToken: token,
       audience: process.env.GOOGLE_CLIENT_ID,
     });
-
     const { sub, name, email, picture } = ticket.getPayload();
-    console.log('Google token verified:', { sub, name, email, picture });
 
     UserModel.findUserByExternalId(sub, 'GOOGLE', async (err, user) => {
       if (err) {
@@ -84,10 +73,7 @@ const googleLogin = async (req, res) => {
         return res.status(500).json({ error: 'An error occurred while logging in with Google' });
       }
 
-      console.log('User found:', user);
-
       if (!user) {
-        console.log('User not found, attempting to create new user');
         UserModel.createUser({ 
           username: name, 
           password: null, 
@@ -103,18 +89,12 @@ const googleLogin = async (req, res) => {
             return res.status(500).json({ error: 'Error creating user in database' });
           }
 
-          console.log('User created successfully:', result);
-          user = { id: result.insertId, username: name, email, avatar: picture };
-          
-          const jwtToken = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
-          console.log('JWT token generated for new user:', jwtToken);
+          const jwtToken = jwt.sign({ userId: result.insertId }, process.env.JWT_SECRET, { expiresIn: '1h' });
           console.log('New user logged in with Google successfully:', email);
           return res.status(200).json({ token: jwtToken });
         });
       } else {
-        console.log('Existing user found, generating JWT token.');
         const jwtToken = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
-        console.log('JWT token generated for existing user:', jwtToken);
         console.log('Existing user logged in with Google successfully:', email);
         return res.status(200).json({ token: jwtToken });
       }
@@ -164,11 +144,59 @@ const updateUserProfile = async (req, res) => {
   }
 };
 
+const getAllUsers = async (req, res) => {
+  try {
+    const [rows] = await connection.query('SELECT id, username, email, created_at, avatar, preferences FROM users');
+    res.status(200).json(rows);
+  } catch (error) {
+    console.error('Error fetching users:', error);
+    res.status(500).json({ error: 'An error occurred while fetching the users' });
+  }
+};
+
+const updateUserAdmin = async (req, res) => {
+  const userId = req.params.id;
+  const { username, email, preferences } = req.body;
+  const avatar = req.file ? `/uploads/avatars/${req.file.filename}` : null;
+
+  try {
+    const query = avatar ?
+      'UPDATE users SET username = ?, email = ?, preferences = ?, avatar = ? WHERE id = ?' :
+      'UPDATE users SET username = ?, email = ?, preferences = ? WHERE id = ?';
+    
+    const params = avatar ? [username, email, preferences, avatar, userId] : [username, email, preferences, userId];
+
+    await connection.query(query, params);
+
+    const [rows] = await connection.query('SELECT id, username, email, created_at, avatar, preferences FROM users WHERE id = ?', [userId]);
+    const updatedUser = rows[0];
+
+    res.status(200).json(updatedUser);
+  } catch (error) {
+    console.error('Error updating user:', error);
+    res.status(500).json({ error: 'An error occurred while updating the user' });
+  }
+};
+
+const deleteUserAdmin = async (req, res) => {
+  const userId = req.params.id;
+  try {
+    await connection.query('DELETE FROM users WHERE id = ?', [userId]);
+    res.status(200).json({ message: 'User deleted successfully' });
+  } catch (error) {
+    console.error('Error deleting user:', error);
+    res.status(500).json({ error: 'An error occurred while deleting the user' });
+  }
+};
+
 module.exports = {
   registerUser,
   loginUser,
   googleLogin,
   getUserProfile,
   updateUserProfile,
+  getAllUsers,
+  updateUserAdmin,
+  deleteUserAdmin,
   upload,
 };

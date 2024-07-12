@@ -4,7 +4,7 @@ import { Container, Row, Col, Form, Button } from 'react-bootstrap';
 import { useLocation } from 'react-router-dom';
 import ReactPlayer from 'react-player';
 import Avatar from 'react-avatar';
-import '../StreamingPage.css';
+import '../CSS/StreamingPage.css';
 
 const fakeChatMessages = [
   { id: 1, username: 'Alice Johnson', message: 'hello everyone' },

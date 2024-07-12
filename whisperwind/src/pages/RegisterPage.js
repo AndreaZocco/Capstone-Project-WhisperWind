@@ -3,7 +3,7 @@ import axios from 'axios';
 import { AuthContext } from '../context/AuthContext';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
-import '../Register.css';
+import '../CSS/Register.css';
 
 const preferencesOptions = [
   'Relaxing Waves', 'Gentle Rain', 'Forest Sounds', 'Mountain Stream',

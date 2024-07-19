@@ -29,5 +29,6 @@ whisperwind/public/assets/*
 whisperwind/src/assets/Video/*
 
 .vscode
+launch.json
 
 

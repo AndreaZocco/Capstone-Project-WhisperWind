@@ -1,6 +1,6 @@
 body {
   margin: 0;
-  background-color: #ffffff !important;
+  background-color: #F4F4F4 !important;
   font-family: 'Roboto', sans-serif !important;
   }
 
@@ -80,7 +80,7 @@ body {
 
 .swiper-button-prev, .swiper-button-next {
   color: #d928dfe8 !important;
-  background-color: rgba(255, 255, 255, 0.726);
+  background-color: rgba(255, 255, 255, 0.527);
   padding: 15px;
   border-radius: 25%;
 }

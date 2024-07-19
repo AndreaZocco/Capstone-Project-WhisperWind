@@ -19,7 +19,8 @@
     "react-router-dom": "^6.23.1",
     "react-scripts": "5.0.1",
     "swiper": "^11.1.4",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "ytmusic-api": "^5.2.2"
   },
   "scripts": {
     "start": "react-scripts start",

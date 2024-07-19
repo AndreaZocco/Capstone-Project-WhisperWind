@@ -12,7 +12,7 @@ const events = [
     date: '2023-08-12',
     time: '18:00',
     description: 'Gibi (born December 19, 1994) is a member of the ASMRtist community whose relaxing and tingle-inducing roleplays and soft spoken videos have earned her more than 800,000 subscribers. She used ASMR videos for years to relax her and put her to sleep before deciding to create an ASMR channel of her own in June of 2016. She became a big fan of cosplaying, and would earn 50,000 followers on her gibiofficial Instagram account.',
-    videoUrl: '/assets/Video/Live.mp4'
+    videoUrl: 'https://player.vimeo.com/video/987201116'
   },
   {
     id: 2,

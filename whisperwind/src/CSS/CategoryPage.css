@@ -2,6 +2,7 @@
   padding: 20px;
   color: #d928dfe8 !important;
   text-align: center;
+  min-height: 100vh;
 }
 
 .demo-item {
@@ -49,6 +50,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  cursor: pointer;
 }
 
 .category-item:hover {
@@ -115,6 +117,7 @@
 h1 {
   text-align: center;
   margin-bottom: 20px;
+  color: #fff;
 }
 
 .category-image {
@@ -129,5 +132,14 @@ h1 {
   height: auto;
   border-radius: 25px;
   box-shadow: 8px 8px 16px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease-in-out;
 }
 
+.category-image img:hover {
+  transform: scale(1.1);
+}
+
+.loading {
+  color: #fff;
+  font-size: 1.5rem;
+}

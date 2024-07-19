@@ -5,10 +5,18 @@ const AudioPlayer = ({ track }) => {
   const audioRef = useRef(null);
 
   useEffect(() => {
-    if (audioRef.current) {
-      audioRef.current.load();
-      audioRef.current.play();
-    }
+    const handlePlay = async () => {
+      if (audioRef.current) {
+        try {
+          await audioRef.current.load();
+          await audioRef.current.play();
+        } catch (error) {
+          console.error('Error playing audio:', error);
+        }
+      }
+    };
+
+    handlePlay();
   }, [track]);
 
   return (
